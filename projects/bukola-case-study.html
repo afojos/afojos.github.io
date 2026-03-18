@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project 02 — Nigerian Spending Habits Analysis · Afolayan Joshua</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#020A18;--card:#071526;--border:rgba(59,130,246,0.12);--border2:rgba(59,130,246,0.28);--blue:#1D6FEB;--blue2:#3B82F6;--blue3:#60A5FA;--gold:#F59E0B;--gold2:#FCD34D;--green:#10B981;--green2:#6EE7B7;--red:#EF4444;--red2:#FCA5A5;--teal:#0EA5E9;--cream:#EEF4FF;--white:#FAFCFF;--muted:#3D5A7A;}
+html{scroll-behavior:smooth}
+body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--cream);overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(29,111,235,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(29,111,235,0.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,5vw,80px);background:rgba(2,10,24,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-back{display:flex;align-items:center;gap:8px;text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue3);transition:gap 0.2s}.nav-back:hover{gap:14px}
+.nav-logo{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--white)}
+.hero{position:relative;z-index:1;padding:96px clamp(20px,5vw,80px) 48px;border-bottom:1px solid var(--border)}
+.breadcrumb{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+.breadcrumb a{color:var(--blue3);text-decoration:none}
+.proj-num{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.proj-num::before{content:"";width:24px;height:1px;background:var(--teal)}
+h1{font-family:'Syne',sans-serif;font-size:clamp(28px,5vw,52px);font-weight:800;color:var(--white);letter-spacing:-1.5px;line-height:1.05;margin-bottom:14px}
+h1 span{color:var(--teal)}
+.hero-sub{font-size:16px;color:rgba(238,244,255,0.5);font-weight:300;max-width:600px;line-height:1.75;margin-bottom:28px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:36px}
+.chip{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;padding:4px 12px;border-radius:5px;border:1px solid var(--border2);color:var(--blue3)}
+.chip.done{background:rgba(16,185,129,0.1);border-color:rgba(16,185,129,0.3);color:var(--green2)}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.kpi{background:var(--card);padding:18px 20px}
+.kpi-l{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.kpi-v{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;line-height:1;margin-bottom:3px}
+.kpi-s{font-size:11px;color:var(--muted);font-weight:300}
+.wrap{max-width:860px;margin:0 auto;padding:52px clamp(20px,5vw,80px) 80px;position:relative;z-index:1}
+.sec{margin-bottom:52px}
+.sec-tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec-tag::before{content:"";width:18px;height:1px;background:var(--teal)}
+h2{font-family:'Syne',sans-serif;font-size:clamp(20px,3vw,30px);font-weight:800;color:var(--white);letter-spacing:-0.5px;margin-bottom:14px}
+p{font-size:15px;line-height:1.85;color:rgba(238,244,255,0.55);font-weight:300;margin-bottom:14px}
+p strong{color:var(--cream);font-weight:600}
+.hr{height:1px;background:var(--border);margin:44px 0}
+.findings{display:flex;flex-direction:column;gap:12px}
+.finding{display:flex;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:11px;padding:18px 20px}
+.finding.w{border-left:3px solid var(--red)}.finding.g{border-left:3px solid var(--green)}.finding.i{border-left:3px solid var(--teal)}.finding.o{border-left:3px solid var(--gold)}
+.fi{font-size:22px;flex-shrink:0;margin-top:1px}
+.fb .ft{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--white);margin-bottom:4px}
+.fb .fd{font-size:13px;color:rgba(238,244,255,0.45);line-height:1.65;font-weight:300}
+.fn{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;margin-left:auto;flex-shrink:0;align-self:flex-start;padding:2px 9px;border-radius:4px;white-space:nowrap}
+.fn-r{background:rgba(239,68,68,0.12);color:var(--red2)}.fn-g{background:rgba(16,185,129,0.12);color:var(--green2)}.fn-o{background:rgba(245,158,11,0.12);color:var(--gold2)}.fn-t{background:rgba(14,165,233,0.12);color:var(--teal)}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.cmp-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px}
+.cmp-badge{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:4px;margin-bottom:14px;display:inline-block}
+.cb-yours{background:rgba(245,158,11,0.12);color:var(--gold2)}.cb-bukola{background:rgba(14,165,233,0.12);color:var(--teal)}
+.cmp-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:13px}
+.cmp-row:last-child{border-bottom:none}
+.cmp-key{color:rgba(238,244,255,0.45);font-weight:300}
+.cmp-val{font-family:'Syne',sans-serif;font-size:13px;font-weight:700}
+.tools{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.tool{font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 11px;border-radius:4px;background:rgba(14,165,233,0.08);color:var(--teal);border:1px solid rgba(14,165,233,0.15)}
+.cta{background:linear-gradient(135deg,rgba(14,165,233,0.08),rgba(14,165,233,0.03));border:1px solid rgba(14,165,233,0.2);border-radius:14px;padding:32px;text-align:center;margin-top:44px}
+.cta h3{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--white);margin-bottom:7px}
+.cta p{color:rgba(238,244,255,0.4);font-size:14px;margin-bottom:22px}
+.btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn-p{display:inline-flex;align-items:center;gap:7px;background:var(--blue);color:white;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:12px 22px;border-radius:7px;text-decoration:none;transition:all 0.2s}
+.btn-p:hover{background:var(--blue2)}
+.btn-s{display:inline-flex;align-items:center;gap:7px;background:none;color:rgba(238,244,255,0.5);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:12px 22px;border-radius:7px;text-decoration:none;border:1px solid var(--border2);transition:all 0.2s}
+.btn-s:hover{color:var(--teal);border-color:var(--teal)}
+.view-btn{display:block;text-align:center;background:rgba(14,165,233,0.08);border:1px solid rgba(14,165,233,0.25);border-radius:10px;padding:16px;text-decoration:none;color:var(--teal);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:1px;text-transform:uppercase;margin-bottom:32px;transition:all 0.2s}
+.view-btn:hover{background:rgba(14,165,233,0.15)}
+@media(max-width:580px){.kpi-row{grid-template-columns:1fr 1fr}.compare-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="../index.html" class="nav-back">← Back to Portfolio</a>
+  <div class="nav-logo">afojos</div>
+</nav>
+
+<div class="hero">
+  <div class="breadcrumb"><a href="../index.html">Portfolio</a> / Project 02</div>
+  <div class="proj-num">Project 02 of 08</div>
+  <h1>Nigerian Spending<br><span>Habits Analysis</span></h1>
+  <p class="hero-sub">807 real Nigerian transactions from Kaggle — published by Bukola Fatunde, a Nigerian creator. The Naira Moves framework applied to external data, proving the method works beyond my own numbers.</p>
+  <div class="chips">
+    <span class="chip done">✓ Complete</span>
+    <span class="chip">807 Transactions</span>
+    <span class="chip">Kaggle Dataset</span>
+    <span class="chip">Nigerian Creator</span>
+    <span class="chip">Behavioural Analytics</span>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-l">Transactions</div><div class="kpi-v" style="color:var(--teal)">807</div><div class="kpi-s">Real records</div></div>
+    <div class="kpi"><div class="kpi-l">Total Credits</div><div class="kpi-v" style="color:var(--gold2)">₦4.89M</div><div class="kpi-s">All income</div></div>
+    <div class="kpi"><div class="kpi-l">Expense Ratio</div><div class="kpi-v" style="color:var(--red2)">80.6%</div><div class="kpi-s">Of income</div></div>
+    <div class="kpi"><div class="kpi-l">Health Score</div><div class="kpi-v" style="color:var(--teal)">61/100</div><div class="kpi-s">Framework score</div></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <a href="bukola-dataset-dashboard.html" class="view-btn">📊 View the Full Interactive Dashboard →</a>
+
+  <div class="sec">
+    <div class="sec-tag">Overview</div>
+    <h2>What Was Analysed</h2>
+    <p>The Bukola Fatunde dataset on Kaggle contains <strong>807 real personal finance transactions</strong> — credits, debits, and running balances from a real Nigerian earner. I applied the Naira Moves financial analysis framework to this external dataset to prove the method is repeatable and not just self-analysis.</p>
+    <p>The dataset was cleaned, categorised, and run through ratio analysis — income, expense breakdown, savings rate, behavioural patterns by day and month, and a full financial health score using the same scoring model I built for my own data.</p>
+    <div class="tools">
+      <span class="tool">Python (Pandas)</span><span class="tool">Matplotlib</span><span class="tool">HTML Dashboard</span><span class="tool">Kaggle</span><span class="tool">Naira Moves Framework</span>
+    </div>
+  </div>
+
+  <div class="hr"></div>
+
+  <div class="sec">
+    <div class="sec-tag">Key Findings</div>
+    <h2>What 807 Real Transactions Revealed</h2>
+    <div class="findings">
+      <div class="finding w"><div class="fi">📊</div><div class="fb"><div class="ft">80.6% Expense Ratio — Above the Danger Threshold</div><div class="fd">Over 80 cents of every Naira earned was spent. The recommended maximum is 70%. This person has very little buffer for emergencies or investment.</div></div><div class="fn fn-r">High Risk</div></div>
+      <div class="finding g"><div class="fi">✅</div><div class="fb"><div class="ft">19.4% Savings Rate — Near the 20% Target</div><div class="fd">Significantly better than my own 4.6%. Despite the high expense ratio, this person maintained near-benchmark savings — suggesting income is large enough to absorb the expenses.</div></div><div class="fn fn-g">19.4%</div></div>
+      <div class="finding o"><div class="fi">🍽️</div><div class="fb"><div class="ft">Dining Out = ₦812,400 — #1 Expense Category</div><div class="fd">20.6% of all spending went to dining out. Highest spike in September, particularly on Sundays and Mondays. This is the single biggest lever for improvement.</div></div><div class="fn fn-o">₦812K</div></div>
+      <div class="finding i"><div class="fi">📅</div><div class="fb"><div class="ft">September Spending Spikes +34% Above Average</div><div class="fd">Every September, total spending jumps dramatically — mostly from dining. This is a predictable seasonal pattern that can be pre-empted with a monthly cap.</div></div><div class="fn fn-t">Seasonal</div></div>
+      <div class="finding i"><div class="fi">🔨</div><div class="fb"><div class="ft">Home Improvement Always Lands on Thursdays and Fridays</div><div class="fd">Every home improvement purchase in the dataset occurs on Thu or Fri — a consistent unplanned pattern. Could be budgeted proactively with a monthly envelope.</div></div><div class="fn fn-t">Pattern</div></div>
+      <div class="finding g"><div class="fi">😴</div><div class="fb"><div class="ft">Weekends Are Surprisingly Quiet</div><div class="fd">Saturday and Sunday see below-average spending (excluding September dining). Contrary to expectation — this person's weekday habits drive their costs.</div></div><div class="fn fn-g">Insight</div></div>
+    </div>
+  </div>
+
+  <div class="hr"></div>
+
+  <div class="sec">
+    <div class="sec-tag">Comparison vs My Own Data</div>
+    <h2>Two Nigerian Earners. Same Framework. Different Gaps.</h2>
+    <p>The most powerful outcome of this project was running both datasets through the same framework and comparing the results side by side. The patterns were revealing.</p>
+    <div class="compare-grid">
+      <div class="cmp-card">
+        <div class="cmp-badge cb-yours">My Naira Moves Audit</div>
+        <div class="cmp-row"><span class="cmp-key">Expense Ratio</span><span class="cmp-val" style="color:var(--gold2)">63%</span></div>
+        <div class="cmp-row"><span class="cmp-key">Savings Rate</span><span class="cmp-val" style="color:var(--red2)">4.6%</span></div>
+        <div class="cmp-row"><span class="cmp-key">Top Expense</span><span class="cmp-val" style="color:var(--gold2)">Data Bundles</span></div>
+        <div class="cmp-row"><span class="cmp-key">Health Score</span><span class="cmp-val" style="color:var(--gold2)">52/100</span></div>
+        <div class="cmp-row"><span class="cmp-key">Income</span><span class="cmp-val" style="color:var(--gold2)">₦800K (4 mo)</span></div>
+      </div>
+      <div class="cmp-card">
+        <div class="cmp-badge cb-bukola">Bukola Dataset</div>
+        <div class="cmp-row"><span class="cmp-key">Expense Ratio</span><span class="cmp-val" style="color:var(--red2)">80.6%</span></div>
+        <div class="cmp-row"><span class="cmp-key">Savings Rate</span><span class="cmp-val" style="color:var(--green2)">19.4%</span></div>
+        <div class="cmp-row"><span class="cmp-key">Top Expense</span><span class="cmp-val" style="color:var(--teal)">Dining Out</span></div>
+        <div class="cmp-row"><span class="cmp-key">Health Score</span><span class="cmp-val" style="color:var(--teal)">61/100</span></div>
+        <div class="cmp-row"><span class="cmp-key">Income</span><span class="cmp-val" style="color:var(--teal)">₦4.89M (year)</span></div>
+      </div>
+    </div>
+    <div class="findings">
+      <div class="finding g"><div class="fi">🎯</div><div class="fb"><div class="ft">Common Pattern: Nigerian earners spend 60–80% of income</div><div class="fd">Both datasets confirm the same structural pattern. This is not an individual discipline problem — it's systemic. This validates the need for a product like Naira Moves.</div></div><div class="fn fn-g">Validated</div></div>
+      <div class="finding w"><div class="fi">💡</div><div class="fb"><div class="ft">Key Difference: Higher income does not automatically mean better savings</div><div class="fd">Bukola's dataset shows much higher absolute income — yet a worse expense ratio. My savings rate is lower but improvable. Income alone does not create financial health.</div></div><div class="fn fn-r">Key Insight</div></div>
+    </div>
+  </div>
+
+  <div class="cta">
+    <h3>Want Me to Run This on Your Data?</h3>
+    <p>The same framework, applied to your real transactions. Full dashboard + written findings + 6 specific recommendations. ₦15,000 – ₦25,000.</p>
+    <div class="btns">
+      <a href="https://wa.me/2349016829766?text=Hi%20Afolayan%2C%20I%20want%20a%20finance%20audit" class="btn-p" target="_blank">📱 DM on WhatsApp</a>
+      <a href="bukola-dataset-dashboard.html" class="btn-s">View Full Dashboard →</a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
