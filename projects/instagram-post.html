@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instagram Finance Content</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #F7F4EF;
+  --ink: #0F0F0F;
+  --gold: #C8922A;
+  --red: #C0392B;
+  --teal: #1A5F6E;
+  --cream: #EDE8DF;
+  --warm-white: #FDFAF5;
+}
+
+body {
+  background: #1a1a1a;
+  font-family: 'Syne', sans-serif;
+  min-height: 100vh;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+}
+
+h2 {
+  color: #888;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* ── CAROUSEL VIEWER ── */
+.carousel-section { width: 100%; max-width: 500px; }
+
+.carousel-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+}
+
+.slides {
+  display: flex;
+  width: 800%; /* 8 slides */
+  height: 100%;
+  transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.slide {
+  width: 12.5%; /* 100/8 */
+  height: 100%;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── SLIDE 1: Cover ── */
+.s1 {
+  background: #0F0F0F;
+}
+.s1::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 70% 30%, rgba(200,146,42,0.15), transparent 60%),
+              radial-gradient(ellipse at 20% 80%, rgba(26,95,110,0.2), transparent 50%);
+}
+.s1-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(200,146,42,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,146,42,0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.s1-content {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: flex-start;
+  padding: 48px;
+}
+.s1-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 3px; color: #C8922A;
+  border: 1px solid rgba(200,146,42,0.4); padding: 5px 12px;
+  border-radius: 2px; margin-bottom: 28px;
+}
+.s1-headline {
+  font-family: 'Instrument Serif', serif;
+  font-size: 52px; line-height: 1.05; color: #F7F4EF;
+  margin-bottom: 20px;
+}
+.s1-headline span { color: #C8922A; font-style: italic; }
+.s1-sub {
+  font-size: 12px; color: #666; line-height: 1.6;
+  max-width: 280px;
+}
+.s1-stat {
+  position: absolute; right: 40px; bottom: 48px;
+  text-align: right;
+}
+.s1-stat-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 36px; color: #C8922A; font-weight: 700;
+}
+.s1-stat-lbl { font-size: 10px; color: #555; letter-spacing: 2px; }
+.slide-counter {
+  position: absolute; top: 20px; right: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: #444; letter-spacing: 1px;
+}
+
+/* ── SLIDE 2: Income Breakdown ── */
+.s2 { background: #F7F4EF; }
+.s2-content {
+  position: absolute; inset: 0;
+  padding: 44px 40px;
+  display: flex; flex-direction: column;
+}
+.slide-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; letter-spacing: 3px; color: #C8922A;
+  margin-bottom: 6px; text-transform: uppercase;
+}
+.slide-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 30px; line-height: 1.1; color: #0F0F0F;
+  margin-bottom: 28px;
+}
+.income-bars { display: flex; flex-direction: column; gap: 16px; flex: 1; justify-content: center; }
+.ibar-row { display: flex; flex-direction: column; gap: 6px; }
+.ibar-meta { display: flex; justify-content: space-between; align-items: center; }
+.ibar-name { font-size: 12px; color: #333; font-weight: 600; }
+.ibar-val { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #C8922A; font-weight: 700; }
+.ibar-track { height: 6px; background: #E8E3DA; border-radius: 3px; overflow: hidden; }
+.ibar-fill { height: 100%; border-radius: 3px; }
+.s2-total {
+  border-top: 1px solid #E0DAD0;
+  padding-top: 16px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.s2-total-lbl { font-size: 11px; color: #888; letter-spacing: 1px; text-transform: uppercase; }
+.s2-total-val { font-family: 'Instrument Serif', serif; font-size: 28px; color: #0F0F0F; }
+
+/* ── SLIDE 3: Expense Alarm ── */
+.s3 { background: #0F0F0F; }
+.s3-content {
+  position: absolute; inset: 0; padding: 44px 40px;
+  display: flex; flex-direction: column;
+}
+.s3-big {
+  font-family: 'Instrument Serif', serif;
+  font-size: 72px; line-height: 1; color: #C0392B;
+  margin: 12px 0 4px;
+}
+.s3-desc { font-size: 12px; color: #666; margin-bottom: 28px; }
+.expense-list { display: flex; flex-direction: column; gap: 10px; }
+.exp-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 14px; border-radius: 4px;
+}
+.exp-name { font-size: 12px; font-weight: 600; }
+.exp-badge {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  padding: 3px 8px; border-radius: 3px;
+}
+
+/* ── SLIDE 4: Savings Reality ── */
+.s4 { background: #F7F4EF; }
+.s4-content { position: absolute; inset: 0; padding: 44px 40px; display: flex; flex-direction: column; }
+.rate-display {
+  display: flex; align-items: flex-end; gap: 8px; margin: 8px 0 20px;
+}
+.rate-big {
+  font-family: 'JetBrains Mono', monospace; font-size: 80px;
+  line-height: 1; color: #C0392B; font-weight: 700;
+}
+.rate-unit { font-family: 'Instrument Serif', serif; font-size: 32px; color: #C0392B; margin-bottom: 12px; }
+.vs-box {
+  background: #0F0F0F; border-radius: 6px;
+  padding: 16px 20px; margin-bottom: 20px;
+}
+.vs-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; }
+.vs-lbl { font-size: 11px; color: #888; }
+.vs-val { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; }
+.vs-divider { height: 1px; background: #222; margin: 4px 0; }
+.goals-mini { display: flex; flex-direction: column; gap: 8px; }
+.goal-mini-row { display: flex; align-items: center; gap: 10px; }
+.goal-mini-name { font-size: 11px; color: #555; width: 110px; }
+.goal-mini-bar { flex: 1; height: 4px; background: #E8E3DA; border-radius: 2px; overflow: hidden; }
+.goal-mini-fill { height: 100%; border-radius: 2px; }
+.goal-mini-pct { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #888; width: 30px; text-align: right; }
+
+/* ── SLIDE 5: Red Flags ── */
+.s5 { background: #1A0A0A; }
+.s5-content { position: absolute; inset: 0; padding: 44px 40px; display: flex; flex-direction: column; }
+.flag-list { display: flex; flex-direction: column; gap: 14px; flex: 1; justify-content: center; }
+.flag-item {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 14px; border-radius: 4px;
+  border-left: 3px solid;
+}
+.flag-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 700; flex-shrink: 0;
+  width: 20px; margin-top: 1px;
+}
+.flag-text { font-size: 12px; line-height: 1.5; color: #DDD; }
+.flag-text strong { color: #FFF; }
+
+/* ── SLIDE 6: Action Plan ── */
+.s6 { background: #F7F4EF; }
+.s6-content { position: absolute; inset: 0; padding: 44px 40px; display: flex; flex-direction: column; }
+.action-list { display: flex; flex-direction: column; gap: 12px; flex: 1; justify-content: center; }
+.action-item {
+  display: flex; gap: 14px; align-items: center;
+  padding: 12px 16px; background: #0F0F0F; border-radius: 6px;
+}
+.action-icon { font-size: 18px; flex-shrink: 0; }
+.action-body { flex: 1; }
+.action-title { font-size: 12px; font-weight: 700; color: #FFF; margin-bottom: 2px; }
+.action-desc { font-size: 10px; color: #888; line-height: 1.4; }
+.action-pill {
+  font-family: 'JetBrains Mono', monospace; font-size: 9px;
+  padding: 3px 7px; border-radius: 10px; flex-shrink: 0;
+}
+
+/* ── SLIDE 7: Verdict ── */
+.s7 { background: #0F0F0F; }
+.s7::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(200,146,42,0.12), transparent 70%);
+}
+.s7-content {
+  position: absolute; inset: 0; padding: 48px 44px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.s7-score-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: #555; letter-spacing: 3px; margin-bottom: 8px;
+}
+.s7-score {
+  font-family: 'Instrument Serif', serif;
+  font-size: 100px; line-height: 1; color: #C8922A;
+  margin-bottom: 4px;
+}
+.s7-score span { font-size: 40px; color: #444; }
+.s7-verdict {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px; color: #F7F4EF; line-height: 1.4;
+  margin: 20px 0 32px;
+  font-style: italic;
+}
+.s7-verdict em { color: #C8922A; font-style: normal; }
+.s7-cta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: #555; letter-spacing: 2px;
+}
+
+/* ── SLIDE 8: Caption Preview ── */
+.s8 { background: #F7F4EF; }
+.s8-content { position: absolute; inset: 0; padding: 44px 40px; display: flex; flex-direction: column; }
+.s8-profile { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.s8-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: linear-gradient(135deg, #C8922A, #1A5F6E);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+}
+.s8-handle { font-size: 13px; font-weight: 700; color: #0F0F0F; }
+.s8-sub { font-size: 10px; color: #888; }
+.s8-caption {
+  font-size: 11px; color: #333; line-height: 1.7; flex: 1;
+  overflow: hidden;
+}
+.s8-caption .bold { font-weight: 700; color: #0F0F0F; }
+.s8-caption .hashtag { color: #1A5F6E; }
+.s8-caption .emoji { font-style: normal; }
+.s8-tags {
+  margin-top: 12px;
+  font-size: 10px; color: #1A5F6E; line-height: 1.8;
+}
+
+/* ── CONTROLS ── */
+.controls {
+  display: flex; gap: 12px; align-items: center; margin-top: 16px; justify-content: center;
+}
+.ctrl-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #2a2a2a; border: 1px solid #444;
+  color: #fff; cursor: pointer; font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.ctrl-btn:hover { background: #C8922A; border-color: #C8922A; }
+.slide-dots { display: flex; gap: 6px; }
+.sdot { width: 6px; height: 6px; border-radius: 50%; background: #333; transition: all 0.3s; cursor: pointer; }
+.sdot.active { background: #C8922A; transform: scale(1.4); }
+.slide-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: #555; letter-spacing: 1px;
+  text-align: center; margin-top: 8px;
+}
+
+/* ── CAPTION SECTION ── */
+.caption-section {
+  width: 100%; max-width: 500px;
+}
+.caption-box {
+  background: #111; border: 1px solid #2a2a2a;
+  border-radius: 8px; padding: 28px 32px;
+}
+.caption-header {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: #C8922A; letter-spacing: 3px;
+  margin-bottom: 16px; text-transform: uppercase;
+}
+.caption-text {
+  font-family: 'Syne', sans-serif;
+  font-size: 13px; color: #CCC; line-height: 1.9;
+}
+.caption-text .hl { color: #FFF; font-weight: 700; }
+.caption-text .tag { color: #1A5F6E; }
+.copy-btn {
+  margin-top: 20px; padding: 10px 20px;
+  background: #C8922A; border: none; border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: 2px; color: #0F0F0F; cursor: pointer;
+  font-weight: 700; transition: all 0.2s;
+}
+.copy-btn:hover { background: #E5A930; }
+.copy-btn.copied { background: #1A5F6E; color: #FFF; }
+</style>
+</head>
+<body>
+
+<div class="carousel-section">
+  <h2>// Instagram Carousel · 8 Slides · 1:1 Format</h2>
+
+  <div class="carousel-wrapper">
+    <div class="slides" id="slides">
+
+      <!-- SLIDE 1: Cover -->
+      <div class="slide s1">
+        <div class="s1-grid"></div>
+        <div class="s1-content">
+          <div class="s1-eyebrow">Jan – Apr 2026 · 4 Months</div>
+          <div class="s1-headline">I tracked<br>every<br><span>Naira.</span></div>
+          <div class="s1-sub">Here's what 4 months of honest financial data revealed about my money habits.</div>
+        </div>
+        <div class="s1-stat">
+          <div class="s1-stat-num">₦800K</div>
+          <div class="s1-stat-lbl">Total Income</div>
+        </div>
+        <div class="slide-counter">01 / 08</div>
+      </div>
+
+      <!-- SLIDE 2: Income -->
+      <div class="slide s2">
+        <div class="s2-content">
+          <div class="slide-tag">Income · Slide 02</div>
+          <div class="slide-title">4 streams.<br>One mission.</div>
+          <div class="income-bars">
+            <div class="ibar-row">
+              <div class="ibar-meta"><span class="ibar-name">Business</span><span class="ibar-val">₦238,134</span></div>
+              <div class="ibar-track"><div class="ibar-fill" style="width:100%;background:#C8922A"></div></div>
+            </div>
+            <div class="ibar-row">
+              <div class="ibar-meta"><span class="ibar-name">Side Hustle</span><span class="ibar-val">₦200,231</span></div>
+              <div class="ibar-track"><div class="ibar-fill" style="width:84%;background:#1A5F6E"></div></div>
+            </div>
+            <div class="ibar-row">
+              <div class="ibar-meta"><span class="ibar-name">Commission</span><span class="ibar-val">₦188,105</span></div>
+              <div class="ibar-track"><div class="ibar-fill" style="width:79%;background:#6B4F9E"></div></div>
+            </div>
+            <div class="ibar-row">
+              <div class="ibar-meta"><span class="ibar-name">Freelance</span><span class="ibar-val">₦173,530</span></div>
+              <div class="ibar-track"><div class="ibar-fill" style="width:73%;background:#2E8B57"></div></div>
+            </div>
+          </div>
+          <div class="s2-total">
+            <div class="s2-total-lbl">Total · 4 months</div>
+            <div class="s2-total-val">₦800,000</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 3: Expenses -->
+      <div class="slide s3">
+        <div class="s3-content">
+          <div class="slide-tag" style="color:#C0392B">Expenses · Slide 03</div>
+          <div class="slide-title" style="color:#EEE;font-family:'Instrument Serif',serif;font-size:22px;margin-bottom:4px;">Where did it all go?</div>
+          <div class="s3-big">63%</div>
+          <div class="s3-desc" style="color:#666">of income swallowed by expenses (₦503,832)</div>
+          <div class="expense-list">
+            <div class="exp-item" style="background:#1A0A0A;border-left:3px solid #C0392B">
+              <span class="exp-name" style="color:#FFF">📡 Data Bundles</span>
+              <span class="exp-badge" style="background:#C0392B22;color:#C0392B">₦80,548 · 16%</span>
+            </div>
+            <div class="exp-item" style="background:#1A0A0A;border-left:3px solid #C8922A">
+              <span class="exp-name" style="color:#FFF">💼 Business Exp.</span>
+              <span class="exp-badge" style="background:#C8922A22;color:#C8922A">₦73,200 · 15%</span>
+            </div>
+            <div class="exp-item" style="background:#1A0A0A;border-left:3px solid #666">
+              <span class="exp-name" style="color:#FFF">⚡ Utilities</span>
+              <span class="exp-badge" style="background:#66666622;color:#AAA">₦68,900 · 14%</span>
+            </div>
+            <div class="exp-item" style="background:#1A0A0A;border-left:3px solid #C0392B">
+              <span class="exp-name" style="color:#FFF">🎭 Entertainment</span>
+              <span class="exp-badge" style="background:#C0392B22;color:#C0392B">₦48,100 · 10%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 4: Savings Reality Check -->
+      <div class="slide s4">
+        <div class="s4-content">
+          <div class="slide-tag">Savings Reality · Slide 04</div>
+          <div class="slide-title" style="font-size:22px;margin-bottom:0">My savings rate?</div>
+          <div class="rate-display">
+            <div class="rate-big">4.6</div>
+            <div class="rate-unit">%</div>
+          </div>
+          <div class="vs-box">
+            <div class="vs-row">
+              <span class="vs-lbl">My rate</span>
+              <span class="vs-val" style="color:#C0392B">4.6%</span>
+            </div>
+            <div class="vs-divider"></div>
+            <div class="vs-row">
+              <span class="vs-lbl">Recommended minimum</span>
+              <span class="vs-val" style="color:#2E8B57">20%</span>
+            </div>
+          </div>
+          <div class="goals-mini">
+            <div class="goal-mini-row">
+              <span class="goal-mini-name">Emergency Fund</span>
+              <div class="goal-mini-bar"><div class="goal-mini-fill" style="width:28%;background:#C8922A"></div></div>
+              <span class="goal-mini-pct">28%</span>
+            </div>
+            <div class="goal-mini-row">
+              <span class="goal-mini-name">Investment</span>
+              <div class="goal-mini-bar"><div class="goal-mini-fill" style="width:21%;background:#1A5F6E"></div></div>
+              <span class="goal-mini-pct">21%</span>
+            </div>
+            <div class="goal-mini-row">
+              <span class="goal-mini-name">Business Capital</span>
+              <div class="goal-mini-bar"><div class="goal-mini-fill" style="width:18%;background:#6B4F9E"></div></div>
+              <span class="goal-mini-pct">18%</span>
+            </div>
+            <div class="goal-mini-row">
+              <span class="goal-mini-name">Rent</span>
+              <div class="goal-mini-bar"><div class="goal-mini-fill" style="width:15%;background:#2E8B57"></div></div>
+              <span class="goal-mini-pct">15%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 5: Red Flags -->
+      <div class="slide s5">
+        <div class="s5-content">
+          <div class="slide-tag" style="color:#C0392B">Red Flags · Slide 05</div>
+          <div class="slide-title" style="color:#EEE;font-family:'Instrument Serif',serif;font-size:26px;margin-bottom:16px;">4 things that<br>need to change.</div>
+          <div class="flag-list">
+            <div class="flag-item" style="background:#1A0000;border-color:#C0392B">
+              <span class="flag-num" style="color:#C0392B">01</span>
+              <span class="flag-text"><strong>₦80K on data</strong> in 4 months — that's more than rent. Unacceptable.</span>
+            </div>
+            <div class="flag-item" style="background:#1A0B00;border-color:#C8922A">
+              <span class="flag-num" style="color:#C8922A">02</span>
+              <span class="flag-text"><strong>Entertainment > Transport</strong> — lifestyle spending is outpacing essentials.</span>
+            </div>
+            <div class="flag-item" style="background:#1A0000;border-color:#C0392B">
+              <span class="flag-num" style="color:#C0392B">03</span>
+              <span class="flag-text"><strong>Emergency fund at 0.41 months</strong> — one bad month away from crisis.</span>
+            </div>
+            <div class="flag-item" style="background:#1A0B00;border-color:#C8922A">
+              <span class="flag-num" style="color:#C8922A">04</span>
+              <span class="flag-text"><strong>Zero passive income</strong> — every Naira earned requires active effort. No rest.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 6: Action Plan -->
+      <div class="slide s6">
+        <div class="s6-content">
+          <div class="slide-tag">Fix It Plan · Slide 06</div>
+          <div class="slide-title" style="font-size:24px;margin-bottom:16px;">6 moves.<br>Starting now.</div>
+          <div class="action-list">
+            <div class="action-item">
+              <span class="action-icon">🚨</span>
+              <div class="action-body">
+                <div class="action-title">Automate ₦40K savings on payday</div>
+                <div class="action-desc">Before spending a single Naira</div>
+              </div>
+              <span class="action-pill" style="background:#C0392B22;color:#C0392B">URGENT</span>
+            </div>
+            <div class="action-item">
+              <span class="action-icon">📡</span>
+              <div class="action-body">
+                <div class="action-title">Annual data bundle only</div>
+                <div class="action-desc">Save ₦10K+/month vs prepaid</div>
+              </div>
+              <span class="action-pill" style="background:#C8922A22;color:#C8922A">HIGH</span>
+            </div>
+            <div class="action-item">
+              <span class="action-icon">🎭</span>
+              <div class="action-body">
+                <div class="action-title">Cap entertainment at ₦8K/month</div>
+                <div class="action-desc">Envelope method — cash only</div>
+              </div>
+              <span class="action-pill" style="background:#C8922A22;color:#C8922A">HIGH</span>
+            </div>
+            <div class="action-item">
+              <span class="action-icon">🛡️</span>
+              <div class="action-body">
+                <div class="action-title">Emergency fund: ₦375K target</div>
+                <div class="action-desc">3 months of expenses. Non-negotiable.</div>
+              </div>
+              <span class="action-pill" style="background:#1A5F6E22;color:#1A5F6E">GOAL</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 7: Verdict -->
+      <div class="slide s7">
+        <div class="s7-content">
+          <div class="s7-score-label">Financial Health Score</div>
+          <div class="s7-score">52<span>/100</span></div>
+          <div class="s7-verdict">"You earn well.<br>Now build the <em>discipline</em><br>to match it."</div>
+          <div class="s7-cta">Swipe back to revisit the breakdown ↩</div>
+        </div>
+        <div class="slide-counter" style="color:#333">07 / 08</div>
+      </div>
+
+      <!-- SLIDE 8: Save/Caption -->
+      <div class="slide s8">
+        <div class="s8-content">
+          <div class="slide-tag">Save This · Slide 08</div>
+          <div class="slide-title" style="font-size:24px;margin-bottom:16px;">Your turn.<br>Track. Analyse.<br>Discipline.</div>
+          <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px;">
+            <div style="padding:14px;background:#0F0F0F;border-radius:6px;">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#C8922A;letter-spacing:2px;margin-bottom:6px;">THE 3 RULES</div>
+              <div style="font-size:12px;color:#EEE;line-height:1.8;">
+                1. Pay yourself first (20%+)<br>
+                2. Audit your top 3 expenses monthly<br>
+                3. Emergency fund before everything
+              </div>
+            </div>
+            <div style="padding:14px;background:#0F0F0F;border-radius:6px;">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#1A5F6E;letter-spacing:2px;margin-bottom:6px;">50 / 30 / 20 FRAMEWORK</div>
+              <div style="font-size:12px;color:#EEE;line-height:1.8;">
+                Needs ≤ ₦100K &nbsp;·&nbsp; Wants ≤ ₦60K &nbsp;·&nbsp; Save ≥ ₦40K
+              </div>
+            </div>
+          </div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#888;letter-spacing:2px;text-align:center;margin-top:12px;">
+            💾 SAVE THIS POST · JAN–APR 2026
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="ctrl-btn" id="prev">←</button>
+    <div class="slide-dots" id="dots"></div>
+    <button class="ctrl-btn" id="next">→</button>
+  </div>
+  <div class="slide-label" id="slide-label">Slide 1 of 8 — Cover</div>
+</div>
+
+<!-- Caption -->
+<div class="caption-section">
+  <h2>// Instagram Caption</h2>
+  <div class="caption-box">
+    <div class="caption-header">// Ready to copy & paste</div>
+    <div class="caption-text" id="caption-text">
+      I tracked every single Naira for 4 months.<br><br>
+      <span class="hl">₦800,000 earned. ₦503,832 spent. ₦184,110 saved.</span><br><br>
+      The number that humbled me? My savings rate was <span class="hl">4.6%.</span><br>
+      The recommended minimum is 20%. I was saving a quarter of what I should.<br><br>
+      Here's what the data exposed 👇<br><br>
+      📡 I spent <span class="hl">₦80,000 on data</span> in 4 months. More than my rent category.<br>
+      🎭 Entertainment cost more than transport. Lifestyle creep is real.<br>
+      🛡️ My emergency fund covers <span class="hl">less than 2 weeks</span> of expenses.<br>
+      💼 All 4 income streams are active. Zero passive income.<br><br>
+      The income machine works. The financial discipline doesn't — yet.<br><br>
+      So here's the new plan:<br>
+      → Automate savings on payday (pay yourself first)<br>
+      → Annual data bundle only<br>
+      → Hard cap on entertainment: ₦8K/month<br>
+      → Emergency fund to ₦375,000 before anything else<br><br>
+      Financial health score: <span class="hl">52/100.</span> Work in progress.<br><br>
+      Swipe through the full breakdown →<br><br>
+      Are you tracking yours? Drop your savings rate below 👇<br><br>
+      <span class="tag">#PersonalFinance #FinancialDiscipline #MoneyHabits #BudgetingNigeria #NairaMoves #FinancialFreedom #MoneyManagement #SavingsGoals #IncomeStreams #FinanceTips #NigerianEntrepreneur #WealthBuilding #BudgetLife #MoneyMindset #FinancialGrowth #SaveMore #MultipleIncomeStreams #FinanceNG #Hustle #BuildingWealth</span>
+    </div>
+    <button class="copy-btn" id="copy-btn" onclick="copyCaption()">COPY CAPTION</button>
+  </div>
+</div>
+
+<script>
+const labels = [
+  'Cover — "I tracked every Naira"',
+  'Income Breakdown — 4 Streams',
+  'Expense Shock — 63% consumed',
+  'Savings Reality — 4.6% rate',
+  'Red Flags — 4 critical issues',
+  'Action Plan — 6 moves',
+  'Verdict — 52/100 score',
+  'Save This — 3 rules + framework',
+];
+
+let current = 0;
+const total = 8;
+
+const dotsEl = document.getElementById('dots');
+for (let i = 0; i < total; i++) {
+  const d = document.createElement('div');
+  d.className = 'sdot' + (i === 0 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+}
+
+function goTo(n) {
+  current = Math.max(0, Math.min(total - 1, n));
+  const pct = current * (100 / total);
+  document.getElementById('slides').style.transform = `translateX(-${pct}%)`;
+  document.querySelectorAll('.sdot').forEach((d, i) => d.classList.toggle('active', i === current));
+  document.getElementById('slide-label').textContent = `Slide ${current + 1} of 8 — ${labels[current]}`;
+}
+
+document.getElementById('next').onclick = () => goTo(current + 1);
+document.getElementById('prev').onclick = () => goTo(current - 1);
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') goTo(current + 1);
+  if (e.key === 'ArrowLeft') goTo(current - 1);
+});
+
+// Touch swipe
+let tx = 0;
+const sl = document.getElementById('slides');
+sl.addEventListener('touchstart', e => { tx = e.touches[0].clientX; });
+sl.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx;
+  if (dx < -40) goTo(current + 1);
+  if (dx > 40) goTo(current - 1);
+});
+
+function copyCaption() {
+  const text = `I tracked every single Naira for 4 months.
+
+₦800,000 earned. ₦503,832 spent. ₦184,110 saved.
+
+The number that humbled me? My savings rate was 4.6%.
+The recommended minimum is 20%. I was saving a quarter of what I should.
+
+Here's what the data exposed 👇
+
+📡 I spent ₦80,000 on data in 4 months. More than my rent category.
+🎭 Entertainment cost more than transport. Lifestyle creep is real.
+🛡️ My emergency fund covers less than 2 weeks of expenses.
+💼 All 4 income streams are active. Zero passive income.
+
+The income machine works. The financial discipline doesn't — yet.
+
+So here's the new plan:
+→ Automate savings on payday (pay yourself first)
+→ Annual data bundle only
+→ Hard cap on entertainment: ₦8K/month
+→ Emergency fund to ₦375,000 before anything else
+
+Financial health score: 52/100. Work in progress.
+
+Swipe through the full breakdown →
+
+Are you tracking yours? Drop your savings rate below 👇
+
+#PersonalFinance #FinancialDiscipline #MoneyHabits #BudgetingNigeria #NairaMoves #FinancialFreedom #MoneyManagement #SavingsGoals #IncomeStreams #FinanceTips #NigerianEntrepreneur #WealthBuilding #BudgetLife #MoneyMindset #FinancialGrowth #SaveMore #MultipleIncomeStreams #FinanceNG #Hustle #BuildingWealth`;
+
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = '✓ COPIED!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'COPY CAPTION'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>

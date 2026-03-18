@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Naira Moves — Financial Discipline App</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07101F;--bg2:#0C1628;--bg3:#111F35;
+  --card:#0F1C30;--card2:#142238;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);
+  --gold:#C8931A;--gold2:#F0BB3C;--goldglow:rgba(200,147,26,0.15);
+  --cream:#F5EDDA;--white:#FEFCF7;--muted:#5A6A7E;
+  --red:#E53935;--red2:#FF7B7B;--redglow:rgba(229,57,53,0.12);
+  --green:#00C896;--green2:#7FFFD4;--greenglow:rgba(0,200,150,0.12);
+  --teal:#0EA5E9;--teal2:#7DD3FC;
+  --purp:#A78BFA;--orange:#F59E0B;
+  --sidebar:220px;
+}
+
+html,body{height:100%;overflow:hidden}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--cream);display:flex;flex-direction:column}
+
+/* ══ TOP BAR ══ */
+.topbar{
+  height:56px;background:var(--bg2);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;flex-shrink:0;position:relative;z-index:50;
+}
+.topbar-logo{
+  display:flex;align-items:center;gap:10px;
+  font-family:'Syne',sans-serif;font-weight:800;font-size:18px;
+  color:var(--gold2);letter-spacing:-0.5px;
+}
+.topbar-logo-icon{
+  width:30px;height:30px;background:var(--gold);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;
+}
+.topbar-center{
+  position:absolute;left:50%;transform:translateX(-50%);
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:2px;text-transform:uppercase;
+  color:rgba(245,237,218,0.25);
+}
+.topbar-right{display:flex;align-items:center;gap:14px}
+.topbar-notif{
+  width:34px;height:34px;border-radius:9px;
+  background:var(--card);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:15px;position:relative;
+  transition:border-color 0.2s;
+}
+.topbar-notif:hover{border-color:var(--border2)}
+.notif-dot{
+  position:absolute;top:6px;right:6px;
+  width:7px;height:7px;border-radius:50%;
+  background:var(--red);border:1.5px solid var(--bg2);
+}
+.topbar-avatar{
+  width:34px;height:34px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-weight:800;font-size:13px;
+  color:var(--bg);cursor:pointer;
+}
+
+/* ══ LAYOUT ══ */
+.app-body{display:flex;flex:1;overflow:hidden}
+
+/* ══ SIDEBAR ══ */
+.sidebar{
+  width:var(--sidebar);flex-shrink:0;
+  background:var(--bg2);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;overflow-y:auto;
+  scrollbar-width:none;
+}
+.sidebar::-webkit-scrollbar{display:none}
+.sidebar-section{padding:20px 14px 8px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted)}
+.nav-item{
+  display:flex;align-items:center;gap:11px;
+  padding:10px 14px;border-radius:9px;margin:0 6px 2px;
+  cursor:pointer;font-size:13.5px;font-weight:400;
+  color:rgba(245,237,218,0.45);
+  transition:all 0.15s;user-select:none;
+}
+.nav-item:hover{background:rgba(255,255,255,0.04);color:rgba(245,237,218,0.75)}
+.nav-item.active{
+  background:var(--goldglow);border:1px solid rgba(200,147,26,0.2);
+  color:var(--gold2);font-weight:600;
+}
+.nav-item .ni-icon{font-size:16px;width:20px;text-align:center;flex-shrink:0}
+.nav-badge{
+  margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:9px;
+  padding:2px 7px;border-radius:10px;font-weight:600;
+}
+.nb-red{background:rgba(229,57,53,0.15);color:var(--red2)}
+.nb-gold{background:var(--goldglow);color:var(--gold2)}
+
+.sidebar-bottom{margin-top:auto;padding:16px}
+.sidebar-profile{
+  display:flex;align-items:center;gap:10px;
+  padding:12px;background:var(--card);border:1px solid var(--border);
+  border-radius:10px;cursor:pointer;transition:border-color 0.2s;
+}
+.sidebar-profile:hover{border-color:var(--border2)}
+.sp-avatar{
+  width:32px;height:32px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-weight:800;font-size:12px;color:var(--bg);
+  flex-shrink:0;
+}
+.sp-name{font-size:12px;font-weight:600;color:var(--cream);line-height:1.2}
+.sp-handle{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted)}
+
+/* ══ MAIN ══ */
+.main{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.08) transparent}
+.main::-webkit-scrollbar{width:4px}
+.main::-webkit-scrollbar-track{background:transparent}
+.main::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:2px}
+
+.panel{display:none;padding:28px 28px 60px;animation:fadeIn 0.3s ease}
+.panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+.page-hdr{margin-bottom:24px}
+.page-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--white);letter-spacing:-0.5px;margin-bottom:3px}
+.page-sub{font-size:13px;color:var(--muted);font-weight:300}
+
+/* ══ KPI ROW ══ */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.kpi{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:13px;padding:18px 20px;position:relative;overflow:hidden;
+  transition:transform 0.2s,border-color 0.2s;cursor:default;
+}
+.kpi:hover{transform:translateY(-2px);border-color:var(--border2)}
+.kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.kpi.k-gold::after{background:linear-gradient(90deg,var(--gold),var(--gold2))}
+.kpi.k-red::after{background:linear-gradient(90deg,var(--red),#FF7B7B)}
+.kpi.k-green::after{background:linear-gradient(90deg,var(--green),var(--green2))}
+.kpi.k-teal::after{background:linear-gradient(90deg,var(--teal),var(--teal2))}
+.kpi.k-purp::after{background:linear-gradient(90deg,var(--purp),#C4B5FD)}
+.kpi-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.kpi-val{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;line-height:1;margin-bottom:5px}
+.kv-gold{color:var(--gold2)}.kv-red{color:var(--red2)}.kv-green{color:var(--green2)}.kv-teal{color:var(--teal2)}.kv-purp{color:var(--purp)}
+.kpi-sub{font-size:11px;color:var(--muted);font-weight:300}
+.kpi-chip{position:absolute;top:14px;right:14px;font-family:'JetBrains Mono',monospace;font-size:9px;padding:3px 7px;border-radius:4px}
+.kc-up{background:rgba(0,200,150,0.12);color:var(--green2)}
+.kc-dn{background:rgba(229,57,53,0.12);color:var(--red2)}
+.kc-nt{background:var(--goldglow);color:var(--gold2)}
+
+/* ══ GRIDS ══ */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:18px}
+.g12{display:grid;grid-template-columns:1fr 2fr;gap:18px;margin-bottom:18px}
+.g21{display:grid;grid-template-columns:2fr 1fr;gap:18px;margin-bottom:18px}
+
+/* ══ CARD ══ */
+.card{background:var(--card);border:1px solid var(--border);border-radius:13px;padding:20px 22px}
+.card-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--white);margin-bottom:3px}
+.card-sub{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+
+/* ══ ALLOCATION BUILDER ══ */
+.alloc-total{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:10px;padding:14px 18px;margin-bottom:16px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.at-lbl{font-size:12px;color:var(--muted);font-weight:300}
+.at-vals{display:flex;gap:20px}
+.at-val{text-align:right}
+.at-num{font-family:'Syne',sans-serif;font-weight:800;font-size:16px}
+.at-tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+
+.alloc-bar{height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden;margin-bottom:18px;display:flex}
+.ab-seg{height:100%;transition:width 0.5s ease}
+
+.alloc-list{display:flex;flex-direction:column;gap:10px}
+.alloc-item{
+  display:flex;align-items:center;gap:12px;
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:10px;padding:12px 14px;
+  transition:border-color 0.2s;
+}
+.alloc-item:hover{border-color:var(--border2)}
+.ai-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.ai-name{font-size:13px;font-weight:500;color:var(--cream);flex:1}
+.ai-pct{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);width:36px;text-align:right}
+.ai-amt{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--white);width:90px;text-align:right}
+.ai-input{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:7px;padding:6px 10px;color:var(--cream);
+  font-family:'JetBrains Mono',monospace;font-size:12px;
+  width:110px;outline:none;text-align:right;
+  transition:border-color 0.2s;
+}
+.ai-input:focus{border-color:var(--gold)}
+.ai-del{
+  width:26px;height:26px;border-radius:6px;border:1px solid var(--border);
+  background:none;cursor:pointer;color:var(--muted);font-size:14px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.15s;flex-shrink:0;
+}
+.ai-del:hover{border-color:var(--red);color:var(--red2);background:var(--redglow)}
+
+.add-rule-btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:11px;border-radius:10px;
+  border:1px dashed rgba(200,147,26,0.3);background:none;
+  color:var(--gold);font-size:13px;cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-weight:500;
+  transition:all 0.2s;margin-top:8px;
+}
+.add-rule-btn:hover{background:var(--goldglow);border-color:var(--gold)}
+
+/* ══ SPLIT SIMULATION ══ */
+.sim-card{
+  background:linear-gradient(135deg,rgba(200,147,26,0.08),rgba(200,147,26,0.03));
+  border:1px solid rgba(200,147,26,0.2);border-radius:13px;padding:20px 22px;
+}
+.sim-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--gold2);margin-bottom:3px}
+.sim-sub{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(200,147,26,0.5);margin-bottom:18px}
+
+.sim-income{
+  display:flex;align-items:center;gap:14px;margin-bottom:20px;
+  background:var(--bg3);border-radius:9px;padding:12px 16px;border:1px solid var(--border);
+}
+.si-lbl{font-size:12px;color:var(--muted);font-weight:300}
+.si-input{
+  flex:1;background:none;border:none;outline:none;
+  font-family:'Syne',sans-serif;font-size:20px;font-weight:800;
+  color:var(--gold2);text-align:right;
+}
+
+.flow-arrow{
+  display:flex;align-items:center;justify-content:center;
+  color:var(--gold);font-size:20px;margin:8px 0;
+  animation:bounce 2s ease infinite;
+}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
+
+.dest-list{display:flex;flex-direction:column;gap:8px}
+.dest-item{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:9px;padding:11px 14px;
+  animation:slideIn 0.3s ease both;
+}
+@keyframes slideIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+.di-left{display:flex;align-items:center;gap:10px}
+.di-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.di-name{font-size:13px;font-weight:500;color:var(--cream)}
+.di-bank{font-size:11px;color:var(--muted);font-weight:300}
+.di-amt{font-family:'Syne',sans-serif;font-size:15px;font-weight:800}
+.di-status{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;padding:2px 8px;border-radius:4px}
+.ds-auto{background:var(--greenglow);color:var(--green2)}
+.ds-pending{background:var(--goldglow);color:var(--gold2)}
+
+/* ══ TRANSACTION LIST ══ */
+.tx-list{display:flex;flex-direction:column;gap:6px}
+.tx-item{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 14px;border-radius:9px;
+  background:var(--bg3);border:1px solid var(--border);
+  transition:border-color 0.15s;cursor:default;
+}
+.tx-item:hover{border-color:var(--border2)}
+.tx-icon{
+  width:36px;height:36px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:17px;flex-shrink:0;
+}
+.tx-info{flex:1}
+.tx-name{font-size:13px;font-weight:500;color:var(--cream);line-height:1.3}
+.tx-meta{font-size:11px;color:var(--muted);font-weight:300}
+.tx-amt{font-family:'Syne',sans-serif;font-size:14px;font-weight:800}
+.tx-cat{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.5px;color:var(--muted);text-align:right}
+.ta-credit{color:var(--green2)}
+.ta-debit{color:var(--red2)}
+
+/* ══ GOALS ══ */
+.goal-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.goal-card{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:11px;padding:16px;transition:border-color 0.2s;
+}
+.goal-card:hover{border-color:var(--border2)}
+.gc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.gc-icon{font-size:20px}
+.gc-pct{font-family:'Syne',sans-serif;font-size:13px;font-weight:800}
+.gc-name{font-size:13px;font-weight:600;color:var(--cream);margin-bottom:2px}
+.gc-vals{font-size:11px;color:var(--muted);font-weight:300;margin-bottom:10px}
+.gc-track{height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;margin-bottom:8px}
+.gc-fill{height:100%;border-radius:3px;transition:width 1s ease}
+.gc-months{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.5px;color:var(--muted)}
+
+/* ══ HEALTH SCORE ══ */
+.score-big{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:10px 0;
+}
+.score-ring-wrap{position:relative;width:130px;height:130px;margin-bottom:12px}
+.score-ring-wrap canvas{position:absolute;top:0;left:0}
+.score-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-num{font-family:'Syne',sans-serif;font-size:34px;font-weight:900;color:var(--gold2);line-height:1}
+.score-den{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)}
+.score-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.score-verdict{font-size:13px;color:rgba(245,237,218,0.5);text-align:center;line-height:1.6;font-style:italic;font-weight:300;max-width:160px}
+
+.dim-list{display:flex;flex-direction:column;gap:10px;flex:1}
+.dim-row{display:flex;align-items:center;gap:10px}
+.dim-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.5px;text-transform:uppercase;color:var(--muted);width:110px;flex-shrink:0}
+.dim-track{flex:1;height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden}
+.dim-fill{height:100%;border-radius:2px;transition:width 1.2s ease}
+.dim-score{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);width:22px;text-align:right}
+
+/* ══ INCOME PAGE ══ */
+.income-streams{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:18px}
+.stream-card{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:11px;padding:16px;position:relative;overflow:hidden;
+}
+.stream-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.sc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.sc-icon{font-size:20px}
+.sc-type{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px;border-radius:4px;margin-top:2px}
+.sc-amt{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--gold2);margin-bottom:3px}
+.sc-name{font-size:12px;color:var(--muted);font-weight:300}
+.sc-bar{height:3px;background:rgba(255,255,255,0.06);border-radius:2px;margin-top:10px;overflow:hidden}
+.sc-barfill{height:100%;border-radius:2px}
+
+/* ══ BUDGET PAGE ══ */
+.budget-list{display:flex;flex-direction:column;gap:10px}
+.budget-item{
+  display:flex;align-items:center;gap:14px;
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:10px;padding:13px 16px;
+}
+.bi-icon{font-size:18px;flex-shrink:0}
+.bi-name{font-size:13px;font-weight:500;color:var(--cream);flex:1}
+.bi-bar-wrap{width:120px}
+.bi-bar-track{height:5px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;margin-bottom:4px}
+.bi-bar-fill{height:100%;border-radius:3px;transition:width 1s ease}
+.bi-nums{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)}
+.bi-amt{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;width:90px;text-align:right}
+.bi-status{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 8px;border-radius:4px;white-space:nowrap}
+.bs-ok{background:var(--greenglow);color:var(--green2)}
+.bs-warn{background:var(--goldglow);color:var(--gold2)}
+.bs-over{background:var(--redglow);color:var(--red2)}
+
+/* ══ SETTINGS PAGE ══ */
+.settings-section{margin-bottom:24px}
+.ss-title{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.setting-row{
+  display:flex;align-items:center;gap-14px;
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:10px;padding:14px 16px;margin-bottom:8px;
+  justify-content:space-between;
+}
+.sr-left{display:flex;align-items:center;gap:12px}
+.sr-icon{font-size:18px}
+.sr-name{font-size:13px;font-weight:500;color:var(--cream)}
+.sr-desc{font-size:11px;color:var(--muted);font-weight:300}
+.toggle{
+  width:40px;height:22px;border-radius:11px;
+  background:rgba(255,255,255,0.1);cursor:pointer;
+  position:relative;transition:background 0.2s;flex-shrink:0;
+}
+.toggle.on{background:var(--gold)}
+.toggle::after{
+  content:'';position:absolute;top:3px;left:3px;
+  width:16px;height:16px;border-radius:50%;
+  background:white;transition:transform 0.2s;
+}
+.toggle.on::after{transform:translateX(18px)}
+
+/* ══ PRIMARY BTN ══ */
+.btn-gold{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--gold);color:var(--bg);
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  padding:11px 22px;border-radius:8px;border:none;cursor:pointer;
+  transition:all 0.2s;
+}
+.btn-gold:hover{background:var(--gold2);box-shadow:0 4px 16px rgba(200,147,26,0.3)}
+.btn-outline{
+  display:inline-flex;align-items:center;gap:8px;
+  background:none;color:var(--gold2);
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  font-weight:500;letter-spacing:1.5px;text-transform:uppercase;
+  padding:10px 20px;border-radius:8px;
+  border:1px solid rgba(200,147,26,0.3);cursor:pointer;
+  transition:all 0.2s;
+}
+.btn-outline:hover{background:var(--goldglow);border-color:var(--gold)}
+
+/* ══ ALERT BANNER ══ */
+.alert{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:12px 16px;border-radius:10px;margin-bottom:16px;font-size:13px;
+}
+.alert.info{background:rgba(14,165,233,0.08);border:1px solid rgba(14,165,233,0.2);color:var(--teal2)}
+.alert.warn{background:var(--goldglow);border:1px solid rgba(200,147,26,0.2);color:var(--gold2)}
+.alert.danger{background:var(--redglow);border:1px solid rgba(229,57,53,0.2);color:var(--red2)}
+.alert.success{background:var(--greenglow);border:1px solid rgba(0,200,150,0.2);color:var(--green2)}
+.alert-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+.alert-body{}
+.alert-title{font-weight:600;margin-bottom:2px;font-family:'Syne',sans-serif}
+.alert-desc{font-size:12px;opacity:0.75;font-weight:300;line-height:1.5}
+
+/* ══ MINI CHART ══ */
+.sparkline{height:48px;position:relative;overflow:hidden}
+.sparkline svg{width:100%;height:100%}
+
+/* ══ RESPONSIVE SIDEBAR COLLAPSE ══ */
+@media(max-width:900px){
+  :root{--sidebar:60px}
+  .nav-item span,.sidebar-section,.sp-name,.sp-handle,.nav-badge{display:none}
+  .nav-item{justify-content:center;padding:12px}
+  .ni-icon{width:auto}
+  .sidebar-profile{justify-content:center;padding:10px}
+  .sp-avatar{flex-shrink:0}
+  .kpi-row{grid-template-columns:1fr 1fr}
+  .g2,.g3,.g12,.g21{grid-template-columns:1fr}
+  .income-streams,.goal-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .kpi-row{grid-template-columns:1fr}
+  .panel{padding:16px 14px 60px}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-logo">
+    <div class="topbar-logo-icon">₦</div>
+    Naira Moves
+  </div>
+  <div class="topbar-center">Financial Discipline System</div>
+  <div class="topbar-right">
+    <div class="topbar-notif" title="Notifications">
+      🔔<div class="notif-dot"></div>
+    </div>
+    <div class="topbar-avatar">AJ</div>
+  </div>
+</div>
+
+<div class="app-body">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-section">Main</div>
+  <div class="nav-item active" onclick="showPanel('dashboard',this)">
+    <span class="ni-icon">🏠</span><span>Dashboard</span>
+  </div>
+  <div class="nav-item" onclick="showPanel('income',this)">
+    <span class="ni-icon">💰</span><span>Income</span>
+    <span class="nav-badge nb-gold">+4</span>
+  </div>
+  <div class="nav-item" onclick="showPanel('split',this)">
+    <span class="ni-icon">⚡</span><span>Auto-Split</span>
+    <span class="nav-badge nb-gold">ON</span>
+  </div>
+  <div class="nav-item" onclick="showPanel('budget',this)">
+    <span class="ni-icon">📊</span><span>Budget</span>
+    <span class="nav-badge nb-red">2 Over</span>
+  </div>
+  <div class="nav-item" onclick="showPanel('savings',this)">
+    <span class="ni-icon">🎯</span><span>Goals</span>
+  </div>
+  <div class="nav-item" onclick="showPanel('transactions',this)">
+    <span class="ni-icon">📋</span><span>Transactions</span>
+  </div>
+
+  <div class="sidebar-section">Insights</div>
+  <div class="nav-item" onclick="showPanel('health',this)">
+    <span class="ni-icon">❤️</span><span>Health Score</span>
+  </div>
+  <div class="nav-item" onclick="showPanel('reports',this)">
+    <span class="ni-icon">📈</span><span>Reports</span>
+  </div>
+
+  <div class="sidebar-section">Account</div>
+  <div class="nav-item" onclick="showPanel('settings',this)">
+    <span class="ni-icon">⚙️</span><span>Settings</span>
+  </div>
+
+  <div class="sidebar-bottom">
+    <div class="sidebar-profile">
+      <div class="sp-avatar">AJ</div>
+      <div>
+        <div class="sp-name">Afolayan Joshua</div>
+        <div class="sp-handle">@afojos</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN PANELS -->
+<div class="main">
+
+<!-- ══════════ DASHBOARD ══════════ -->
+<div id="panel-dashboard" class="panel active">
+  <div class="page-hdr">
+    <div class="page-title">Good morning, Joshua 👋</div>
+    <div class="page-sub">March 2026 · 10 days until your next income arrives</div>
+  </div>
+
+  <div class="alert warn">
+    <div class="alert-icon">⚡</div>
+    <div class="alert-body">
+      <div class="alert-title">Auto-Split Ready</div>
+      <div class="alert-desc">Your income of ₦200,000 is expected on March 27. 8 split rules are configured and will fire automatically.</div>
+    </div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi k-gold">
+      <div class="kpi-lbl">Monthly Income</div>
+      <div class="kpi-val kv-gold">₦200,000</div>
+      <div class="kpi-sub">OPay · 27th every month</div>
+      <span class="kpi-chip kc-nt">FIXED</span>
+    </div>
+    <div class="kpi k-red">
+      <div class="kpi-lbl">Spent This Month</div>
+      <div class="kpi-val kv-red">₦123,400</div>
+      <div class="kpi-sub">61.7% of income used</div>
+      <span class="kpi-chip kc-dn">−₦76,600</span>
+    </div>
+    <div class="kpi k-green">
+      <div class="kpi-lbl">Saved This Month</div>
+      <div class="kpi-val kv-green">₦46,000</div>
+      <div class="kpi-sub">23% savings rate ✅</div>
+      <span class="kpi-chip kc-up">+3%</span>
+    </div>
+    <div class="kpi k-teal">
+      <div class="kpi-lbl">Remaining</div>
+      <div class="kpi-val kv-teal">₦30,600</div>
+      <div class="kpi-sub">Available to spend freely</div>
+      <span class="kpi-chip kc-nt">15.3%</span>
+    </div>
+  </div>
+
+  <div class="g21">
+    <!-- ALLOCATION VISUAL -->
+    <div class="card">
+      <div class="card-title">This Month's Allocation</div>
+      <div class="card-sub">Where your ₦200K went when it arrived</div>
+
+      <div class="alloc-bar" id="main-alloc-bar">
+        <div class="ab-seg" style="width:25%;background:#C8931A"></div>
+        <div class="ab-seg" style="width:23%;background:#0EA5E9"></div>
+        <div class="ab-seg" style="width:20%;background:#00C896"></div>
+        <div class="ab-seg" style="width:15%;background:#A78BFA"></div>
+        <div class="ab-seg" style="width:10%;background:#F59E0B"></div>
+        <div class="ab-seg" style="width:7%;background:#E53935"></div>
+      </div>
+
+      <div class="dest-list">
+        <div class="dest-item" style="animation-delay:0.05s">
+          <div class="di-left"><div class="di-dot" style="background:#C8931A"></div><div><div class="di-name">Food & Feeding</div><div class="di-bank">OPay Savings · Auto-split</div></div></div>
+          <div style="text-align:right"><div class="di-amt" style="color:var(--gold2)">₦50,000</div><span class="di-status ds-auto">✓ SENT</span></div>
+        </div>
+        <div class="dest-item" style="animation-delay:0.10s">
+          <div class="di-left"><div class="di-dot" style="background:#0EA5E9"></div><div><div class="di-name">Rent Savings</div><div class="di-bank">GTBank · 0123456789</div></div></div>
+          <div style="text-align:right"><div class="di-amt" style="color:var(--teal2)">₦45,000</div><span class="di-status ds-auto">✓ SENT</span></div>
+        </div>
+        <div class="dest-item" style="animation-delay:0.15s">
+          <div class="di-left"><div class="di-dot" style="background:#00C896"></div><div><div class="di-name">Emergency Fund</div><div class="di-bank">Kuda Bank · Savings vault</div></div></div>
+          <div style="text-align:right"><div class="di-amt" style="color:var(--green2)">₦40,000</div><span class="di-status ds-auto">✓ SENT</span></div>
+        </div>
+        <div class="dest-item" style="animation-delay:0.20s">
+          <div class="di-left"><div class="di-dot" style="background:#A78BFA"></div><div><div class="di-name">Loan Repayment</div><div class="di-bank">Access Bank · Loan Acct</div></div></div>
+          <div style="text-align:right"><div class="di-amt" style="color:var(--purp)">₦30,000</div><span class="di-status ds-auto">✓ SENT</span></div>
+        </div>
+        <div class="dest-item" style="animation-delay:0.25s">
+          <div class="di-left"><div class="di-dot" style="background:#F59E0B"></div><div><div class="di-name">Transport</div><div class="di-bank">OPay wallet · Envelope</div></div></div>
+          <div style="text-align:right"><div class="di-amt" style="color:var(--orange)">₦20,000</div><span class="di-status ds-auto">✓ SENT</span></div>
+        </div>
+        <div class="dest-item" style="animation-delay:0.30s">
+          <div class="di-left"><div class="di-dot" style="background:#E53935"></div><div><div class="di-name">Data & Utilities</div><div class="di-bank">OPay wallet · Envelope</div></div></div>
+          <div style="text-align:right"><div class="di-amt" style="color:var(--red2)">₦15,000</div><span class="di-status ds-auto">✓ SENT</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HEALTH SCORE + ALERTS -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="card" style="flex:1">
+        <div class="card-title">Health Score</div>
+        <div class="card-sub">This month</div>
+        <div class="score-big">
+          <div class="score-ring-wrap">
+            <canvas id="dash-score-ring" width="130" height="130"></canvas>
+            <div class="score-center">
+              <div class="score-num">71</div>
+              <div class="score-den">/100</div>
+            </div>
+          </div>
+          <div class="score-label">Good Progress</div>
+          <div class="score-verdict">"Savings on track. Reduce data spend to hit 80."</div>
+        </div>
+      </div>
+      <div class="alert danger" style="margin-bottom:0">
+        <div class="alert-icon">🚨</div>
+        <div class="alert-body">
+          <div class="alert-title">Entertainment Over Budget</div>
+          <div class="alert-desc">₦48,100 spent vs ₦30,000 budget. ₦18,100 over.</div>
+        </div>
+      </div>
+      <div class="alert success" style="margin-bottom:0">
+        <div class="alert-icon">✅</div>
+        <div class="alert-body">
+          <div class="alert-title">Savings Target Hit</div>
+          <div class="alert-desc">You've saved 23% this month — above your 20% goal!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ INCOME ══════════ -->
+<div id="panel-income" class="panel">
+  <div class="page-hdr">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div>
+        <div class="page-title">Income Streams</div>
+        <div class="page-sub">Track all your money sources — salary, business, side hustle</div>
+      </div>
+      <button class="btn-gold">+ Add Stream</button>
+    </div>
+  </div>
+
+  <div class="kpi-row" style="grid-template-columns:repeat(3,1fr)">
+    <div class="kpi k-gold">
+      <div class="kpi-lbl">Total This Month</div>
+      <div class="kpi-val kv-gold">₦200,000</div>
+      <div class="kpi-sub">All streams combined</div>
+    </div>
+    <div class="kpi k-green">
+      <div class="kpi-lbl">Active Streams</div>
+      <div class="kpi-val kv-green">4</div>
+      <div class="kpi-sub">Business · Salary · Hustle · Freelance</div>
+    </div>
+    <div class="kpi k-teal">
+      <div class="kpi-lbl">Next Expected</div>
+      <div class="kpi-val kv-teal">March 27</div>
+      <div class="kpi-sub">₦200,000 · 10 days away</div>
+    </div>
+  </div>
+
+  <div class="income-streams">
+    <div class="stream-card" style="border-top:2px solid var(--gold)">
+      <div class="sc-top">
+        <span class="sc-icon">💼</span>
+        <span class="sc-type" style="background:var(--goldglow);color:var(--gold2)">Salary</span>
+      </div>
+      <div class="sc-amt">₦120,000</div>
+      <div class="sc-name">Main Job · GTBank · 27th monthly</div>
+      <div class="sc-bar"><div class="sc-barfill" style="width:60%;background:var(--gold)"></div></div>
+    </div>
+    <div class="stream-card" style="border-top:2px solid var(--green)">
+      <div class="sc-top">
+        <span class="sc-icon">🏪</span>
+        <span class="sc-type" style="background:var(--greenglow);color:var(--green2)">Business</span>
+      </div>
+      <div class="sc-amt">₦45,000</div>
+      <div class="sc-name">Side Business · OPay · Variable</div>
+      <div class="sc-bar"><div class="sc-barfill" style="width:22%;background:var(--green)"></div></div>
+    </div>
+    <div class="stream-card" style="border-top:2px solid var(--teal)">
+      <div class="sc-top">
+        <span class="sc-icon">💻</span>
+        <span class="sc-type" style="background:rgba(14,165,233,0.1);color:var(--teal2)">Freelance</span>
+      </div>
+      <div class="sc-amt">₦25,000</div>
+      <div class="sc-name">Freelance Work · OPay · Irregular</div>
+      <div class="sc-bar"><div class="sc-barfill" style="width:12%;background:var(--teal)"></div></div>
+    </div>
+    <div class="stream-card" style="border-top:2px solid var(--purp)">
+      <div class="sc-top">
+        <span class="sc-icon">📱</span>
+        <span class="sc-type" style="background:rgba(167,139,250,0.1);color:var(--purp)">Side Hustle</span>
+      </div>
+      <div class="sc-amt">₦10,000</div>
+      <div class="sc-name">Content / Coaching · Transfers</div>
+      <div class="sc-bar"><div class="sc-barfill" style="width:5%;background:var(--purp)"></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Income History</div>
+    <div class="card-sub">Last 5 months</div>
+    <div class="tx-list">
+      <div class="tx-item"><div class="tx-icon" style="background:rgba(200,147,26,0.1)">💰</div><div class="tx-info"><div class="tx-name">February Salary</div><div class="tx-meta">Feb 27 · GTBank</div></div><div style="text-align:right"><div class="tx-amt ta-credit">+₦200,000</div><div class="tx-cat">SALARY</div></div></div>
+      <div class="tx-item"><div class="tx-icon" style="background:rgba(200,147,26,0.1)">💰</div><div class="tx-info"><div class="tx-name">January Salary</div><div class="tx-meta">Jan 27 · GTBank</div></div><div style="text-align:right"><div class="tx-amt ta-credit">+₦200,000</div><div class="tx-cat">SALARY</div></div></div>
+      <div class="tx-item"><div class="tx-icon" style="background:rgba(0,200,150,0.1)">🏪</div><div class="tx-info"><div class="tx-name">Business Revenue</div><div class="tx-meta">Feb 15 · OPay</div></div><div style="text-align:right"><div class="tx-amt ta-credit">+₦38,000</div><div class="tx-cat">BUSINESS</div></div></div>
+      <div class="tx-item"><div class="tx-icon" style="background:rgba(14,165,233,0.1)">💻</div><div class="tx-info"><div class="tx-name">Freelance Project</div><div class="tx-meta">Feb 10 · OPay</div></div><div style="text-align:right"><div class="tx-amt ta-credit">+₦25,000</div><div class="tx-cat">FREELANCE</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ AUTO-SPLIT ══════════ -->
+<div id="panel-split" class="panel">
+  <div class="page-hdr">
+    <div class="page-title">Auto-Split Rules ⚡</div>
+    <div class="page-sub">Define where your money goes the moment it arrives — before you even touch it</div>
+  </div>
+
+  <div class="alert success">
+    <div class="alert-icon">⚡</div>
+    <div class="alert-body">
+      <div class="alert-title">Auto-Split is Active</div>
+      <div class="alert-desc">8 rules configured. Next trigger: ₦200,000 expected on March 27. All rules will fire within 60 seconds of income arrival.</div>
+    </div>
+  </div>
+
+  <div class="g12">
+    <!-- RULE BUILDER -->
+    <div class="card">
+      <div class="card-title">Split Rules</div>
+      <div class="card-sub">Assign income before payday</div>
+
+      <div class="alloc-total">
+        <div class="at-lbl">Monthly income to split</div>
+        <div class="at-vals">
+          <div class="at-val"><div class="at-num kv-gold">₦200,000</div><div class="at-tag">Total</div></div>
+          <div class="at-val"><div class="at-num" id="remaining-label" style="color:var(--green2)">₦0</div><div class="at-tag">Unassigned</div></div>
+        </div>
+      </div>
+
+      <div class="alloc-bar" id="builder-bar">
+        <div class="ab-seg" style="width:25%;background:#C8931A"></div>
+        <div class="ab-seg" style="width:22.5%;background:#0EA5E9"></div>
+        <div class="ab-seg" style="width:20%;background:#00C896"></div>
+        <div class="ab-seg" style="width:15%;background:#A78BFA"></div>
+        <div class="ab-seg" style="width:10%;background:#F59E0B"></div>
+        <div class="ab-seg" style="width:7.5%;background:#E53935"></div>
+      </div>
+
+      <div class="alloc-list" id="rules-list">
+        <!-- filled by JS -->
+      </div>
+
+      <button class="add-rule-btn" onclick="addRule()">+ Add Split Rule</button>
+    </div>
+
+    <!-- SIMULATION -->
+    <div class="sim-card">
+      <div class="sim-title">Live Simulation ⚡</div>
+      <div class="sim-sub">See what happens when income arrives</div>
+
+      <div class="sim-income">
+        <div class="si-lbl">Income Amount (₦)</div>
+        <input class="si-input" id="sim-amount" type="number" value="200000" oninput="updateSim()">
+      </div>
+
+      <div class="flow-arrow">↓</div>
+
+      <div class="dest-list" id="sim-dest-list">
+        <!-- filled by JS -->
+      </div>
+
+      <div style="margin-top:14px;padding:12px 14px;background:var(--bg3);border-radius:9px;border:1px solid var(--border)">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+          <span style="font-size:12px;color:var(--muted)">Total assigned</span>
+          <span id="sim-assigned" style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--white)">₦200,000</span>
+        </div>
+        <div style="display:flex;justify-content:space-between">
+          <span style="font-size:12px;color:var(--muted)">Left in wallet</span>
+          <span id="sim-leftover" style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:var(--green2)">₦0</span>
+        </div>
+      </div>
+
+      <button class="btn-gold" style="width:100%;justify-content:center;margin-top:14px" onclick="runSim()">
+        ▶ Run Simulation
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ BUDGET ══════════ -->
+<div id="panel-budget" class="panel">
+  <div class="page-hdr">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div>
+        <div class="page-title">Budget Tracker</div>
+        <div class="page-sub">March 2026 · See what you planned vs what you actually spent</div>
+      </div>
+      <button class="btn-gold">Edit Budget</button>
+    </div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi k-gold">
+      <div class="kpi-lbl">Total Budget</div>
+      <div class="kpi-val kv-gold">₦170,000</div>
+      <div class="kpi-sub">Assigned to 10 categories</div>
+    </div>
+    <div class="kpi k-red">
+      <div class="kpi-lbl">Total Spent</div>
+      <div class="kpi-val kv-red">₦123,400</div>
+      <div class="kpi-sub">72.6% of budget used</div>
+    </div>
+    <div class="kpi k-green">
+      <div class="kpi-lbl">Budget Left</div>
+      <div class="kpi-val kv-green">₦46,600</div>
+      <div class="kpi-sub">For rest of month</div>
+    </div>
+    <div class="kpi k-red">
+      <div class="kpi-lbl">Over Budget</div>
+      <div class="kpi-val kv-red">2 cats</div>
+      <div class="kpi-sub">Entertainment + Data</div>
+      <span class="kpi-chip kc-dn">⚠ Alert</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Category Budgets vs Actual Spend</div>
+    <div class="card-sub">March 2026 · Auto-updated from transactions</div>
+    <div class="budget-list">
+      <div class="budget-item"><div class="bi-icon">🍽️</div><div class="bi-name">Food & Feeding</div><div class="bi-bar-wrap"><div class="bi-bar-track"><div class="bi-bar-fill" style="width:84%;background:var(--gold)"></div></div><div class="bi-nums"><span>₦42K</span><span>₦50K</span></div></div><div class="bi-amt kv-gold">₦42,000</div><span class="bi-status bs-ok">ON TRACK</span></div>
+
+      <div class="budget-item"><div class="bi-icon">🏠</div><div class="bi-name">Rent / Housing</div><div class="bi-bar-wrap"><div class="bi-bar-track"><div class="bi-bar-fill" style="width:100%;background:var(--green)"></div></div><div class="bi-nums"><span>₦30K</span><span>₦30K</span></div></div><div class="bi-amt kv-green">₦30,000</div><span class="bi-status bs-ok">PAID ✓</span></div>
+
+      <div class="budget-item"><div class="bi-icon">📱</div><div class="bi-name">Data & Internet</div><div class="bi-bar-wrap"><div class="bi-bar-track"><div class="bi-bar-fill" style="width:115%;background:var(--red)"></div></div><div class="bi-nums"><span>₦13K</span><span>₦10K</span></div></div><div class="bi-amt kv-red">₦13,000</div><span class="bi-status bs-over">OVER ₦3K</span></div>
+
+      <div class="budget-item"><div class="bi-icon">🚗</div><div class="bi-name">Transport</div><div class="bi-bar-wrap"><div class="bi-bar-track"><div class="bi-bar-fill" style="width:70%;background:var(--teal)"></div></div><div class="bi-nums"><span>₦14K</span><span>₦20K</span></div></div><div class="bi-amt kv-teal">₦14,000</div><span class="bi-status bs-ok">ON TRACK</span></div>
+
+      <div class="budget-item"><div class="bi-icon">🎬</div><div class="bi-name">Entertainment</div><div class="bi-bar-wrap"><div class="bi-bar-track"><div class="bi-bar-fill" style="width:160%;background:var(--red)"></div></div><div class="bi-nums"><span>₦48K</span><span>₦30K</span></div></div><div class="bi-amt kv-red">₦48,100</div><span class="bi-status bs-over">OVER ₦18K</span></div>
+
+      <div class="budget-item"><div class="bi-icon">🏥</div><div class="bi-name">Health & Personal</div><div class="bi-bar-wrap"><div class="bi-bar-track"><div class="bi-bar-fill" style="width:45%;background:var(--purp)"></div></div><div class="bi-nums"><span>₦9K</span><span>₦20K</span></div></div><div class="bi-amt kv-purp">₦9,000</div><span class="bi-status bs-ok">ON TRACK</span></div>
+
+      <div class="budget-item"><div class="bi-icon">👨‍👩‍👧</div><div class="bi-name">Family Support</div><div class="bi-bar-wrap"><div class="bi-bar-track"><div class="bi-bar-fill" style="width:67%;background:var(--orange)"></div></div><div class="bi-nums"><span>₦10K</span><span>₦15K</span></div></div><div class="bi-amt" style="color:var(--orange)">₦10,000</div><span class="bi-status bs-ok">ON TRACK</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ SAVINGS GOALS ══════════ -->
+<div id="panel-savings" class="panel">
+  <div class="page-hdr">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div>
+        <div class="page-title">Savings Goals 🎯</div>
+        <div class="page-sub">6 active goals · ₦184,110 saved total so far</div>
+      </div>
+      <button class="btn-gold">+ New Goal</button>
+    </div>
+  </div>
+
+  <div class="kpi-row" style="grid-template-columns:repeat(3,1fr)">
+    <div class="kpi k-green">
+      <div class="kpi-lbl">Total Saved</div>
+      <div class="kpi-val kv-green">₦184,110</div>
+      <div class="kpi-sub">Across all 6 goals</div>
+    </div>
+    <div class="kpi k-gold">
+      <div class="kpi-lbl">Monthly Saving</div>
+      <div class="kpi-val kv-gold">₦46,000</div>
+      <div class="kpi-sub">Auto-split this month</div>
+    </div>
+    <div class="kpi k-teal">
+      <div class="kpi-lbl">Savings Rate</div>
+      <div class="kpi-val kv-teal">23%</div>
+      <div class="kpi-sub">Target: 20% ✅ Achieved</div>
+    </div>
+  </div>
+
+  <div class="goal-grid">
+    <div class="goal-card">
+      <div class="gc-top"><span class="gc-icon">🚨</span><span class="gc-pct" style="color:var(--red2)">13.7%</span></div>
+      <div class="gc-name">Emergency Fund</div>
+      <div class="gc-vals">₦51,350 saved of ₦375,000 target</div>
+      <div class="gc-track"><div class="gc-fill" style="width:13.7%;background:var(--red)"></div></div>
+      <div class="gc-months">~27 months at current rate</div>
+    </div>
+    <div class="goal-card">
+      <div class="gc-top"><span class="gc-icon">📈</span><span class="gc-pct" style="color:var(--gold2)">7.8%</span></div>
+      <div class="gc-name">Investment Fund</div>
+      <div class="gc-vals">₦39,000 saved of ₦500,000 target</div>
+      <div class="gc-track"><div class="gc-fill" style="width:7.8%;background:var(--gold)"></div></div>
+      <div class="gc-months">~19 months at current rate</div>
+    </div>
+    <div class="goal-card">
+      <div class="gc-top"><span class="gc-icon">🏪</span><span class="gc-pct" style="color:var(--teal2)">16.5%</span></div>
+      <div class="gc-name">Business Capital</div>
+      <div class="gc-vals">₦33,000 saved of ₦200,000 target</div>
+      <div class="gc-track"><div class="gc-fill" style="width:16.5%;background:var(--teal)"></div></div>
+      <div class="gc-months">~10 months at current rate</div>
+    </div>
+    <div class="goal-card">
+      <div class="gc-top"><span class="gc-icon">🏠</span><span class="gc-pct" style="color:var(--purp)">13.3%</span></div>
+      <div class="gc-name">Rent / Apartment</div>
+      <div class="gc-vals">₦20,000 saved of ₦150,000 target</div>
+      <div class="gc-track"><div class="gc-fill" style="width:13.3%;background:var(--purp)"></div></div>
+      <div class="gc-months">~9 months at current rate</div>
+    </div>
+    <div class="goal-card">
+      <div class="gc-top"><span class="gc-icon">💻</span><span class="gc-pct" style="color:var(--green2)">7.2%</span></div>
+      <div class="gc-name">Laptop Upgrade</div>
+      <div class="gc-vals">₦18,000 saved of ₦250,000 target</div>
+      <div class="gc-track"><div class="gc-fill" style="width:7.2%;background:var(--green)"></div></div>
+      <div class="gc-months">~16 months at current rate</div>
+    </div>
+    <div class="goal-card">
+      <div class="gc-top"><span class="gc-icon">✈️</span><span class="gc-pct" style="color:var(--orange)">22.8%</span></div>
+      <div class="gc-name">Travel Fund</div>
+      <div class="gc-vals">₦22,760 saved of ₦100,000 target</div>
+      <div class="gc-track"><div class="gc-fill" style="width:22.8%;background:var(--orange)"></div></div>
+      <div class="gc-months">~6 months at current rate</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ TRANSACTIONS ══════════ -->
+<div id="panel-transactions" class="panel">
+  <div class="page-hdr">
+    <div class="page-title">Transactions</div>
+    <div class="page-sub">All credits and debits · auto-categorised</div>
+  </div>
+
+  <div style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap">
+    <button class="btn-gold" style="background:var(--gold)">All</button>
+    <button class="btn-outline">Credits</button>
+    <button class="btn-outline">Debits</button>
+    <button class="btn-outline">Auto-Splits</button>
+  </div>
+
+  <div class="card">
+    <div class="card-title">March 2026</div>
+    <div class="card-sub">27 transactions</div>
+    <div class="tx-list">
+      <div class="tx-item"><div class="tx-icon" style="background:rgba(200,147,26,0.1)">💰</div><div class="tx-info"><div class="tx-name">March Salary</div><div class="tx-meta">Mar 1 · GTBank</div></div><div style="text-align:right"><div class="tx-amt ta-credit">+₦200,000</div><div class="tx-cat">SALARY</div></div></div>
+      <div class="tx-item"><div class="tx-icon" style="background:rgba(14,165,233,0.1)">⚡</div><div class="tx-info"><div class="tx-name">Auto-Split → Food Account</div><div class="tx-meta">Mar 1 · Auto-rule fired</div></div><div style="text-align:right"><div class="tx-amt" style="color:var(--teal2)">−₦50,000</div><div class="tx-cat">AUTO-SPLIT</div></div></div>
+      <div class="tx-item"><div class="tx-icon" style="background:rgba(14,165,233,0.1)">⚡</div><div class="tx-info"><div class="tx-name">Auto-Split → Emergency Fund</div><div class="tx-meta">Mar 1 · Auto-rule fired</div></div><div style="text-align:right"><div class="tx-amt" style="color:var(--teal2)">−₦40,000</div><div class="tx-cat">AUTO-SPLIT</div></div></div>
+      <div class="tx-item"><div class="tx-icon" style="background:rgba(14,165,233,0.1)">⚡</div><div class="tx-info"><div class="tx-name">Auto-Split → Loan Repayment</div><div class="tx-meta">Mar 1 · Auto-rule fired</div></div><div style="text-align:right"><div class="tx-amt" style="color:var(--teal2)">−₦30,000</div><div class="tx-cat">AUTO-SPLIT</div></div></div>
+      <div class="tx-item"><div class="tx-icon" style="background:rgba(229,57,53,0.1)">🍽️</div><div class="tx-info"><div class="tx-name">Mr Biggs Restaurant</div><div class="tx-meta">Mar 3 · OPay</div></div><div style="text-align:right"><div class="tx-amt ta-debit">−₦4,500</div><div class="tx-cat">FOOD</div></div></div>
+      <div class="tx-item"><div class="tx-icon" style="background:rgba(229,57,53,0.1)">📱</div><div class="tx-info"><div class="tx-name">MTN Data Bundle</div><div class="tx-meta">Mar 5 · Airtime top-up</div></div><div style="text-align:right"><div class="tx-amt ta-debit">−₦5,000</div><div class="tx-cat">DATA</div></div></div>
+      <div class="tx-item"><div class="tx-icon" style="background:rgba(229,57,53,0.1)">🎬</div><div class="tx-info"><div class="tx-name">Netflix Subscription</div><div class="tx-meta">Mar 6 · Card charge</div></div><div style="text-align:right"><div class="tx-amt ta-debit">−₦4,600</div><div class="tx-cat">ENTERTAINMENT</div></div></div>
+      <div class="tx-item"><div class="tx-icon" style="background:rgba(0,200,150,0.1)">🏪</div><div class="tx-info"><div class="tx-name">Business Revenue</div><div class="tx-meta">Mar 10 · OPay transfer in</div></div><div style="text-align:right"><div class="tx-amt ta-credit">+₦45,000</div><div class="tx-cat">BUSINESS</div></div></div>
+      <div class="tx-item"><div class="tx-icon" style="background:rgba(229,57,53,0.1)">🚗</div><div class="tx-info"><div class="tx-name">Bolt Rides</div><div class="tx-meta">Mar 12 · Multiple trips</div></div><div style="text-align:right"><div class="tx-amt ta-debit">−₦8,200</div><div class="tx-cat">TRANSPORT</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ HEALTH SCORE ══════════ -->
+<div id="panel-health" class="panel">
+  <div class="page-hdr">
+    <div class="page-title">Financial Health Score ❤️</div>
+    <div class="page-sub">Your overall money health — calculated monthly</div>
+  </div>
+
+  <div class="g12">
+    <div class="card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px">
+      <div class="score-ring-wrap" style="width:180px;height:180px">
+        <canvas id="health-ring" width="180" height="180"></canvas>
+        <div class="score-center">
+          <div class="score-num" style="font-size:48px">71</div>
+          <div class="score-den" style="font-size:13px">/100</div>
+        </div>
+      </div>
+      <div class="score-label" style="margin-top:16px;font-size:12px">GOOD PROGRESS 📈</div>
+      <div class="score-verdict" style="max-width:220px;font-size:14px;margin-top:8px">"You're saving above target. One more improvement in expense control and you hit 80."</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Score Breakdown</div>
+      <div class="card-sub">5 dimensions of financial health</div>
+      <div class="dim-list" style="gap:16px">
+        <div class="dim-row"><div class="dim-lbl">Savings Rate</div><div class="dim-track"><div class="dim-fill" style="width:85%;background:var(--green)"></div></div><div class="dim-score">85</div></div>
+        <div class="dim-row"><div class="dim-lbl">Expense Control</div><div class="dim-track"><div class="dim-fill" style="width:55%;background:var(--orange)"></div></div><div class="dim-score">55</div></div>
+        <div class="dim-row"><div class="dim-lbl">Budget Adherence</div><div class="dim-track"><div class="dim-fill" style="width:62%;background:var(--teal)"></div></div><div class="dim-score">62</div></div>
+        <div class="dim-row"><div class="dim-lbl">Income Stability</div><div class="dim-track"><div class="dim-fill" style="width:80%;background:var(--gold)"></div></div><div class="dim-score">80</div></div>
+        <div class="dim-row"><div class="dim-lbl">Goals Progress</div><div class="dim-track"><div class="dim-fill" style="width:65%;background:var(--purp)"></div></div><div class="dim-score">65</div></div>
+      </div>
+
+      <div style="margin-top:20px;display:flex;flex-direction:column;gap:10px">
+        <div class="alert success" style="margin-bottom:0"><div class="alert-icon">✅</div><div class="alert-body"><div class="alert-title">Saving 23% — above 20% target</div></div></div>
+        <div class="alert danger" style="margin-bottom:0"><div class="alert-icon">🚨</div><div class="alert-body"><div class="alert-title">Entertainment 60% over budget</div></div></div>
+        <div class="alert warn" style="margin-bottom:0"><div class="alert-icon">⚠️</div><div class="alert-body"><div class="alert-title">Emergency fund only 13.7% full</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ REPORTS ══════════ -->
+<div id="panel-reports" class="panel">
+  <div class="page-hdr">
+    <div class="page-title">Monthly Reports 📈</div>
+    <div class="page-sub">Your financial story — month by month</div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi k-gold"><div class="kpi-lbl">Best Month</div><div class="kpi-val kv-gold">March</div><div class="kpi-sub">Highest savings rate: 23%</div></div>
+    <div class="kpi k-red"><div class="kpi-lbl">Worst Month</div><div class="kpi-val kv-red">February</div><div class="kpi-sub">Overspent by ₦18,000</div></div>
+    <div class="kpi k-green"><div class="kpi-lbl">4-Month Total Saved</div><div class="kpi-val kv-green">₦184,110</div><div class="kpi-sub">Jan–Apr 2026</div></div>
+    <div class="kpi k-teal"><div class="kpi-lbl">Avg Savings Rate</div><div class="kpi-val kv-teal">19.2%</div><div class="kpi-sub">vs 20% target · close!</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">4-Month Summary</div>
+    <div class="card-sub">January – April 2026</div>
+    <div class="tx-list">
+      <div class="tx-item"><div class="tx-icon" style="background:var(--goldglow)">📅</div><div class="tx-info"><div class="tx-name">January 2026</div><div class="tx-meta">Income ₦200K · Saved ₦45,430 (22.7%)</div></div><div style="text-align:right"><div class="tx-amt" style="color:var(--red2)">₦122,078 spent</div><div class="tx-cat">61% ratio</div></div></div>
+      <div class="tx-item"><div class="tx-icon" style="background:rgba(229,57,53,0.1)">📅</div><div class="tx-info"><div class="tx-name">February 2026</div><div class="tx-meta">Income ₦200K · Saved ₦43,280 (21.6%)</div></div><div style="text-align:right"><div class="tx-amt" style="color:var(--red2)">₦132,516 spent</div><div class="tx-cat">66% ratio</div></div></div>
+      <div class="tx-item"><div class="tx-icon" style="background:var(--greenglow)">📅</div><div class="tx-info"><div class="tx-name">March 2026</div><div class="tx-meta">Income ₦200K · Saved ₦49,290 (24.6%)</div></div><div style="text-align:right"><div class="tx-amt" style="color:var(--green2)">₦125,411 spent</div><div class="tx-cat">63% ratio</div></div></div>
+      <div class="tx-item"><div class="tx-icon" style="background:var(--goldglow)">📅</div><div class="tx-info"><div class="tx-name">April 2026</div><div class="tx-meta">Income ₦200K · Saved ₦46,110 (23.1%)</div></div><div style="text-align:right"><div class="tx-amt" style="color:var(--red2)">₦123,827 spent</div><div class="tx-cat">62% ratio</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ SETTINGS ══════════ -->
+<div id="panel-settings" class="panel">
+  <div class="page-hdr">
+    <div class="page-title">Settings ⚙️</div>
+    <div class="page-sub">Customise your Naira Moves experience</div>
+  </div>
+
+  <div class="g2">
+    <div>
+      <div class="settings-section">
+        <div class="ss-title">Auto-Split</div>
+        <div class="setting-row"><div class="sr-left"><span class="sr-icon">⚡</span><div><div class="sr-name">Auto-Split on Income Arrival</div><div class="sr-desc">Fire rules the moment income is detected</div></div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+        <div class="setting-row"><div class="sr-left"><span class="sr-icon">🔔</span><div><div class="sr-name">Notify When Split Fires</div><div class="sr-desc">Push notification when money is moved</div></div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+        <div class="setting-row"><div class="sr-left"><span class="sr-icon">⏱️</span><div><div class="sr-name">Delay Split by 1 Hour</div><div class="sr-desc">Gives you time to cancel if needed</div></div></div><div class="toggle" onclick="this.classList.toggle('on')"></div></div>
+      </div>
+
+      <div class="settings-section">
+        <div class="ss-title">Budget Alerts</div>
+        <div class="setting-row"><div class="sr-left"><span class="sr-icon">🚨</span><div><div class="sr-name">Over-Budget Alerts</div><div class="sr-desc">Alert when any category is exceeded</div></div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+        <div class="setting-row"><div class="sr-left"><span class="sr-icon">⚠️</span><div><div class="sr-name">80% Warning Alert</div><div class="sr-desc">Warn when category reaches 80% spent</div></div></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="settings-section">
+        <div class="ss-title">Connected Accounts</div>
+        <div class="setting-row"><div class="sr-left"><span class="sr-icon">🟢</span><div><div class="sr-name">OPay</div><div class="sr-desc">Connected · Primary account</div></div></div><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--green2)">LIVE</span></div>
+        <div class="setting-row"><div class="sr-left"><span class="sr-icon">🔵</span><div><div class="sr-name">GTBank</div><div class="sr-desc">Connected · Salary account</div></div></div><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--green2)">LIVE</span></div>
+        <div class="setting-row" style="cursor:pointer"><div class="sr-left"><span class="sr-icon">➕</span><div><div class="sr-name">Add Another Bank</div><div class="sr-desc">Kuda, Access, Zenith, First Bank…</div></div></div><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold)">ADD</span></div>
+      </div>
+
+      <div class="settings-section">
+        <div class="ss-title">Profile</div>
+        <div class="setting-row"><div class="sr-left"><span class="sr-icon">👤</span><div><div class="sr-name">Afolayan Joshua</div><div class="sr-desc">@afojos · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7110171e1d1008101f31141c10181d5f121e1c">[email&#160;protected]</a></div></div></div><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);cursor:pointer">EDIT</span></div>
+        <div class="setting-row"><div class="sr-left"><span class="sr-icon">🎯</span><div><div class="sr-name">Savings Target</div><div class="sr-desc">Currently set to 20% of income</div></div></div><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold);cursor:pointer">20%</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+</div><!-- /app-body -->
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── PANEL NAV ────────────────────────────────────────
+function showPanel(id,el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  el.classList.add('active');
+}
+
+// ── SCORE RINGS ──────────────────────────────────────
+function drawRing(canvasId, score, size){
+  const c = document.getElementById(canvasId);
+  if(!c) return;
+  const ctx = c.getContext('2d');
+  const cx = size/2, cy = size/2, r = size*0.38;
+  const angle = (score/100)*Math.PI*2;
+  ctx.clearRect(0,0,size,size);
+  ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
+  ctx.strokeStyle='rgba(255,255,255,0.06)'; ctx.lineWidth=size*0.08; ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx,cy,r,-Math.PI/2,-Math.PI/2+angle);
+  const g=ctx.createLinearGradient(0,0,size,size);
+  g.addColorStop(0,'#C8931A'); g.addColorStop(1,'#F0BB3C');
+  ctx.strokeStyle=g; ctx.lineWidth=size*0.08; ctx.lineCap='round'; ctx.stroke();
+}
+drawRing('dash-score-ring', 71, 130);
+drawRing('health-ring', 71, 180);
+
+// ── AUTO-SPLIT RULES DATA ─────────────────────────────
+const INCOME = 200000;
+const rules = [
+  {name:'Food & Feeding',    bank:'OPay Savings',     amt:50000,  color:'#C8931A'},
+  {name:'Rent Savings',      bank:'GTBank · 0123',    amt:45000,  color:'#0EA5E9'},
+  {name:'Emergency Fund',    bank:'Kuda Vault',       amt:40000,  color:'#00C896'},
+  {name:'Loan Repayment',    bank:'Access Bank',      amt:30000,  color:'#A78BFA'},
+  {name:'Transport',         bank:'OPay Envelope',    amt:20000,  color:'#F59E0B'},
+  {name:'Data & Utilities',  bank:'OPay Envelope',    amt:15000,  color:'#E53935'},
+];
+
+function buildRulesList(){
+  const el = document.getElementById('rules-list');
+  el.innerHTML = '';
+  rules.forEach((r,i)=>{
+    const pct = ((r.amt/INCOME)*100).toFixed(1);
+    el.innerHTML += `
+    <div class="alloc-item">
+      <div class="ai-dot" style="background:${r.color}"></div>
+      <div class="ai-name">${r.name}<div style="font-size:10px;color:var(--muted);font-weight:300">${r.bank}</div></div>
+      <span class="ai-pct">${pct}%</span>
+      <input class="ai-input" value="${r.amt.toLocaleString()}" oninput="updateRule(${i},this.value)" placeholder="Amount">
+      <button class="ai-del" onclick="deleteRule(${i})">✕</button>
+    </div>`;
+  });
+  updateRemaining();
+}
+
+function updateRule(i, val){
+  rules[i].amt = parseInt(val.replace(/,/g,''))||0;
+  updateRemaining();
+  updateSim();
+}
+
+function deleteRule(i){
+  rules.splice(i,1);
+  buildRulesList();
+  updateSim();
+}
+
+function addRule(){
+  rules.push({name:'New Category', bank:'Choose Account', amt:0, color:'#5A6A7E'});
+  buildRulesList();
+  updateSim();
+}
+
+function updateRemaining(){
+  const total = rules.reduce((s,r)=>s+r.amt,0);
+  const rem = INCOME - total;
+  const el = document.getElementById('remaining-label');
+  if(el){
+    el.textContent = '₦'+(Math.max(0,rem)).toLocaleString();
+    el.style.color = rem < 0 ? 'var(--red2)' : 'var(--green2)';
+  }
+}
+
+// ── SIMULATION ───────────────────────────────────────
+function updateSim(){
+  const income = parseInt(document.getElementById('sim-amount')?.value)||200000;
+  const list = document.getElementById('sim-dest-list');
+  if(!list) return;
+  list.innerHTML = '';
+  let assigned = 0;
+  rules.forEach((r,i)=>{
+    const amt = Math.round((r.amt/INCOME)*income);
+    assigned += amt;
+    list.innerHTML += `
+    <div class="dest-item" style="animation-delay:${i*0.06}s">
+      <div class="di-left">
+        <div class="di-dot" style="background:${r.color}"></div>
+        <div><div class="di-name">${r.name}</div><div class="di-bank">${r.bank}</div></div>
+      </div>
+      <div style="text-align:right">
+        <div class="di-amt" style="color:${r.color}">₦${amt.toLocaleString()}</div>
+        <span class="di-status ds-pending">QUEUED</span>
+      </div>
+    </div>`;
+  });
+  const leftover = income - assigned;
+  const aEl = document.getElementById('sim-assigned');
+  const lEl = document.getElementById('sim-leftover');
+  if(aEl) aEl.textContent = '₦'+assigned.toLocaleString();
+  if(lEl){
+    lEl.textContent = '₦'+Math.max(0,leftover).toLocaleString();
+    lEl.style.color = leftover < 0 ? 'var(--red2)' : 'var(--green2)';
+  }
+}
+
+function runSim(){
+  const list = document.getElementById('sim-dest-list');
+  if(!list) return;
+  list.querySelectorAll('.di-status').forEach((s,i)=>{
+    setTimeout(()=>{
+      s.classList.remove('ds-pending');
+      s.classList.add('ds-auto');
+      s.textContent='✓ SENT';
+    }, 

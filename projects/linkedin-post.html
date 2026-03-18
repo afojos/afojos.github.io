@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LinkedIn Post — Naira Moves</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:   #08122A;
+    --navy2:  #0d1e45;
+    --gold:   #C89820;
+    --gold2:  #F0C350;
+    --gold3:  #7a5c10;
+    --cream:  #F5F0E4;
+    --white:  #FFFAF0;
+    --muted:  #8a7d60;
+    --red:    #C0392B;
+    --teal:   #1A6E80;
+    --green:  #27AE60;
+    --purp:   #8E44AD;
+    --lgray:  #e8e2d6;
+  }
+
+  body {
+    background: #f0ebe0;
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 40px 20px 60px;
+  }
+
+  .page {
+    width: 100%;
+    max-width: 860px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  /* ── HEADER ─────────────────────────────────── */
+  .page-header {
+    text-align: center;
+    padding: 0 0 12px;
+  }
+  .page-header .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .page-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--navy);
+    line-height: 1.2;
+  }
+  .page-header h1 span { color: var(--gold); }
+
+  /* ── LINKEDIN CARD ───────────────────────────── */
+  .linkedin-card {
+    background: var(--white);
+    border-radius: 12px;
+    border: 1px solid #d8d0be;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(8,18,42,0.10), 0 2px 8px rgba(8,18,42,0.06);
+    animation: slideUp 0.7s ease both;
+  }
+
+  @keyframes slideUp {
+    from { opacity:0; transform: translateY(30px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  /* ── BANNER ─────────────────────────────────── */
+  .banner {
+    background: var(--navy);
+    padding: 36px 44px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .banner::before {
+    content:'';
+    position:absolute; top:-80px; right:-60px;
+    width:320px; height:320px; border-radius:50%;
+    background: radial-gradient(circle, rgba(200,152,32,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .banner::after {
+    content:'';
+    position:absolute; bottom:-40px; left:30%;
+    width:200px; height:200px; border-radius:50%;
+    background: radial-gradient(circle, rgba(26,110,128,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .banner-top {
+    display:flex; align-items:center; gap:16px; margin-bottom:24px;
+    position:relative; z-index:1;
+  }
+  .avatar {
+    width:52px; height:52px; border-radius:50%;
+    background: linear-gradient(135deg, var(--gold), var(--gold3));
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Playfair Display',serif; font-size:20px; font-weight:700; color:var(--navy);
+    flex-shrink:0; border:2px solid var(--gold2);
+  }
+  .profile-info { flex:1; }
+  .profile-name {
+    font-family:'DM Sans',sans-serif; font-weight:600; font-size:15px; color:var(--white);
+  }
+  .profile-title {
+    font-family:'DM Mono',monospace; font-size:11px; color: rgba(200,152,32,0.85);
+    letter-spacing:0.5px; margin-top:2px;
+  }
+  .li-badge {
+    background: #0077b5; border-radius:6px;
+    font-family:'DM Mono',monospace; font-size:10px; font-weight:500;
+    color:#fff; padding:4px 10px; letter-spacing:1px;
+  }
+  .banner-headline {
+    font-family:'Playfair Display',serif; font-size:26px; font-weight:900;
+    color:var(--white); line-height:1.25; position:relative; z-index:1;
+    margin-bottom:8px;
+  }
+  .banner-headline em { color:var(--gold2); font-style:italic; }
+  .banner-sub {
+    font-family:'DM Mono',monospace; font-size:12px; color:rgba(200,152,32,0.7);
+    letter-spacing:1px; position:relative; z-index:1;
+  }
+
+  /* ── KPI ROW ─────────────────────────────────── */
+  .kpi-row {
+    display:grid; grid-template-columns:repeat(4,1fr);
+    border-bottom: 1px solid var(--lgray);
+  }
+  .kpi {
+    padding:20px 20px 18px; text-align:center;
+    border-right: 1px solid var(--lgray);
+    position:relative;
+  }
+  .kpi:last-child { border-right:none; }
+  .kpi-val {
+    font-family:'Playfair Display',serif; font-size:28px; font-weight:900;
+    line-height:1; margin-bottom:4px;
+  }
+  .kpi-lbl {
+    font-family:'DM Mono',monospace; font-size:10px;
+    letter-spacing:1.5px; color:var(--muted); text-transform:uppercase;
+    margin-bottom:2px;
+  }
+  .kpi-sub {
+    font-family:'DM Sans',sans-serif; font-size:11px; color:var(--muted); font-weight:300;
+  }
+  .kpi-bar {
+    position:absolute; bottom:0; left:0; height:3px; border-radius:0 0 0 0;
+  }
+  .c-gold { color:var(--gold); }
+  .c-red  { color:var(--red); }
+  .c-teal { color:var(--teal); }
+  .c-blue { color:#2471A3; }
+
+  /* ── POST BODY ───────────────────────────────── */
+  .post-body {
+    padding:32px 44px 28px;
+    border-bottom: 1px solid var(--lgray);
+  }
+  .post-text {
+    font-family:'DM Sans',sans-serif; font-size:15px; line-height:1.78;
+    color:#1a1a1a; white-space:pre-wrap;
+  }
+  .post-text .hook {
+    font-family:'Playfair Display',serif; font-size:19px; font-weight:700;
+    color:var(--navy); display:block; margin-bottom:18px; line-height:1.4;
+  }
+  .post-text .hook em { color:var(--gold); font-style:italic; }
+  .post-text strong { font-weight:600; color:var(--navy); }
+  .post-text .stat-inline {
+    display:inline-block; background:var(--navy); color:var(--gold2);
+    font-family:'DM Mono',monospace; font-size:12px; font-weight:500;
+    padding:2px 8px; border-radius:4px; margin:0 2px; vertical-align:middle;
+  }
+  .post-text .section-break {
+    display:block; width:40px; height:2px; background:var(--gold);
+    margin:22px 0 18px;
+  }
+  .post-text .numbered {
+    display:flex; gap:12px; align-items:flex-start; margin:8px 0;
+  }
+  .post-text .num {
+    font-family:'DM Mono',monospace; font-size:11px; font-weight:500;
+    color:var(--gold); background:var(--navy); border-radius:4px;
+    padding:2px 7px; flex-shrink:0; margin-top:2px;
+  }
+  .post-text .hashtags {
+    margin-top:24px; font-family:'DM Mono',monospace;
+    font-size:12px; color:#0077b5; line-height:2;
+    letter-spacing:0.3px;
+  }
+  .post-text .cta-line {
+    display:block; margin-top:20px; padding:14px 18px;
+    background:linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
+    border-left:3px solid var(--gold); border-radius:0 8px 8px 0;
+    font-family:'DM Sans',sans-serif; font-size:14px; color:var(--cream);
+    font-style:italic; line-height:1.5;
+  }
+  .post-text .cta-line strong { color:var(--gold2); font-style:normal; }
+
+  /* ── DATA BREAKDOWN ─────────────────────────── */
+  .breakdown {
+    padding:28px 44px;
+    border-bottom: 1px solid var(--lgray);
+    background:#faf7f0;
+  }
+  .breakdown-title {
+    font-family:'DM Mono',monospace; font-size:11px; letter-spacing:2px;
+    color:var(--muted); text-transform:uppercase; margin-bottom:20px;
+  }
+  .breakdown-grid {
+    display:grid; grid-template-columns:1fr 1fr; gap:20px;
+  }
+  .bcard {
+    background:var(--white); border:1px solid #ddd8cc;
+    border-radius:10px; padding:18px 20px; position:relative; overflow:hidden;
+  }
+  .bcard::before {
+    content:''; position:absolute; top:0; left:0;
+    width:4px; height:100%; border-radius:0;
+  }
+  .bcard.income::before { background:var(--green); }
+  .bcard.expense::before { background:var(--red); }
+  .bcard.savings::before { background:var(--teal); }
+  .bcard.budget::before { background:var(--purp); }
+  .bcard-title {
+    font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px;
+    color:var(--muted); text-transform:uppercase; margin-bottom:10px;
+  }
+  .bcard-items { display:flex; flex-direction:column; gap:8px; }
+  .bcard-item {
+    display:flex; justify-content:space-between; align-items:center;
+    font-size:13px;
+  }
+  .bcard-item-name {
+    font-family:'DM Sans',sans-serif; color:#333; font-weight:400;
+  }
+  .bcard-item-val {
+    font-family:'DM Mono',monospace; font-size:12px; font-weight:500;
+  }
+  .bcard-bar-wrap {
+    height:4px; background:#e8e2d6; border-radius:2px; margin-top:4px; overflow:hidden;
+  }
+  .bcard-bar-fill { height:100%; border-radius:2px; }
+
+  /* ── INSIGHTS SECTION ───────────────────────── */
+  .insights {
+    padding:28px 44px;
+    border-bottom: 1px solid var(--lgray);
+  }
+  .insights-title {
+    font-family:'DM Mono',monospace; font-size:11px; letter-spacing:2px;
+    color:var(--muted); text-transform:uppercase; margin-bottom:20px;
+  }
+  .insight-list { display:flex; flex-direction:column; gap:12px; }
+  .insight-item {
+    display:flex; gap:14px; align-items:flex-start;
+    padding:14px 16px; border-radius:8px; border:1px solid transparent;
+  }
+  .insight-item.warn {
+    background:#FEF9EC; border-color:#F0C350;
+  }
+  .insight-item.alert {
+    background:#FDF0EE; border-color:#E8A09A;
+  }
+  .insight-item.good {
+    background:#EEF8F3; border-color:#82CDA4;
+  }
+  .insight-icon {
+    font-size:18px; flex-shrink:0; margin-top:1px;
+  }
+  .insight-body { flex:1; }
+  .insight-heading {
+    font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600;
+    color:var(--navy); margin-bottom:3px;
+  }
+  .insight-text {
+    font-family:'DM Sans',sans-serif; font-size:12px;
+    color:#555; line-height:1.6; font-weight:300;
+  }
+
+  /* ── SCORE SECTION ───────────────────────────── */
+  .score-section {
+    padding:28px 44px;
+    border-bottom: 1px solid var(--lgray);
+    background: var(--navy);
+  }
+  .score-title {
+    font-family:'DM Mono',monospace; font-size:11px; letter-spacing:2px;
+    color:rgba(200,152,32,0.7); text-transform:uppercase; margin-bottom:20px;
+  }
+  .score-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .score-item { display:flex; flex-direction:column; gap:6px; }
+  .score-label {
+    font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1px;
+    color:rgba(255,250,240,0.5); text-transform:uppercase;
+  }
+  .score-bar-row { display:flex; align-items:center; gap:10px; }
+  .score-bar-bg {
+    flex:1; height:6px; background:rgba(255,255,255,0.08);
+    border-radius:3px; overflow:hidden;
+  }
+  .score-bar-fg { height:100%; border-radius:3px; }
+  .score-num {
+    font-family:'DM Mono',monospace; font-size:12px; font-weight:500;
+    color:var(--gold2); min-width:32px; text-align:right;
+  }
+  .score-total {
+    margin-top:20px; display:flex; align-items:center; gap:20px;
+    padding:16px 20px; background:rgba(200,152,32,0.12);
+    border:1px solid rgba(200,152,32,0.25); border-radius:8px;
+  }
+  .score-total-num {
+    font-family:'Playfair Display',serif; font-size:48px; font-weight:900;
+    color:var(--gold); line-height:1;
+  }
+  .score-total-info { flex:1; }
+  .score-total-label {
+    font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px;
+    color:rgba(200,152,32,0.7); margin-bottom:4px;
+  }
+  .score-total-verdict {
+    font-family:'Playfair Display',serif; font-size:18px; font-weight:700;
+    color:var(--cream); font-style:italic;
+  }
+
+  /* ── COPY BUTTON AREA ───────────────────────── */
+  .copy-section {
+    padding:24px 44px;
+    background:var(--cream);
+    display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+  }
+  .copy-hint {
+    font-family:'DM Mono',monospace; font-size:11px; letter-spacing:1px;
+    color:var(--muted); text-transform:uppercase; flex:1;
+  }
+  .copy-btn {
+    background:var(--navy); color:var(--gold2);
+    font-family:'DM Mono',monospace; font-size:12px; font-weight:500;
+    padding:10px 22px; border-radius:6px; border:none; cursor:pointer;
+    letter-spacing:1px; text-transform:uppercase;
+    transition: all 0.2s ease;
+  }
+  .copy-btn:hover { background:var(--gold); color:var(--navy); }
+  .copy-btn.copied { background:var(--green); color:#fff; }
+
+  /* ── FOOTER ─────────────────────────────────── */
+  .footer {
+    text-align:center;
+    font-family:'DM Mono',monospace; font-size:11px; letter-spacing:2px;
+    color:var(--muted); padding:8px 0;
+  }
+  .footer span { color:var(--gold); }
+
+  /* Post text is hidden textarea for copying */
+  #post-content { display:none; }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="page-header">
+    <div class="eyebrow">Optimised LinkedIn Post</div>
+    <h1>Naira Moves <span>·</span> Financial Discipline Analysis</h1>
+  </div>
+
+  <div class="linkedin-card">
+
+    <!-- BANNER -->
+    <div class="banner">
+      <div class="banner-top">
+        <div class="avatar">NM</div>
+        <div class="profile-info">
+          <div class="profile-name">Your Name · Financial Analyst & Coach</div>
+          <div class="profile-title">Personal Finance · Nigeria · @afojos</div>
+        </div>
+        <div class="li-badge">LinkedIn</div>
+      </div>
+      <div class="banner-headline">I tracked <em>every single Naira</em> for 4 months.<br>Here's what the data revealed.</div>
+      <div class="banner-sub">Jan – Apr 2026 · Nigerian Naira · Real Numbers</div>
+    </div>
+
+    <!-- KPI ROW -->
+    <div class="kpi-row">
+      <div class="kpi">
+        <div class="kpi-lbl">Total Income</div>
+        <div class="kpi-val c-gold">₦800K</div>
+        <div class="kpi-sub">4 active streams</div>
+        <div class="kpi-bar" style="width:100%;background:var(--gold);"></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-lbl">Total Expenses</div>
+        <div class="kpi-val c-red">₦503K</div>
+        <div class="kpi-sub">63% of income</div>
+        <div class="kpi-bar" style="width:63%;background:var(--red);"></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-lbl">Total Savings</div>
+        <div class="kpi-val c-teal">₦184K</div>
+        <div class="kpi-sub">4.6% rate</div>
+        <div class="kpi-bar" style="width:23%;background:var(--teal);"></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-lbl">Net Retained</div>
+        <div class="kpi-val c-blue">₦112K</div>
+        <div class="kpi-sub">14% of income</div>
+        <div class="kpi-bar" style="width:14%;background:#2471A3;"></div>
+      </div>
+    </div>
+
+    <!-- POST BODY -->
+    <div class="post-body">
+      <div class="post-text">
+        <span class="hook">I made ₦800,000 in 4 months.<br>I saved <em>less than 5% of it.</em><br>Here's the full breakdown — and what I'm doing to fix it.</span>
+
+Most people in Nigeria are earning but not building wealth. The difference? <strong>Discipline, tracking, and honest data.</strong>
+
+I ran a full personal finance audit across January to April 2026 — every income source, every expense category, every savings goal. No hiding. No estimates. Raw numbers.
+
+Here's what 4 months of data revealed:
+<span class="section-break"></span>
+<strong>📊 THE INCOME PICTURE</strong>
+
+<div class="numbered"><span class="num">01</span><span>Business income: <span class="stat-inline">₦238,134</span> — largest single stream (30%)</span></div>
+<div class="numbered"><span class="num">02</span><span>Side hustle: <span class="stat-inline">₦200,231</span> — consistent monthly contributions</span></div>
+<div class="numbered"><span class="num">03</span><span>Commission: <span class="stat-inline">₦188,105</span> — performance-linked, variable</span></div>
+<div class="numbered"><span class="num">04</span><span>Freelance: <span class="stat-inline">₦173,530</span> — project-based, no guaranteed floor</span></div>
+
+The good: true income diversification across 4 streams. The risk: every single stream is <strong>active income</strong> — none of it works while I sleep. Zero passive income. That changes in Q3.
+<span class="section-break"></span>
+<strong>🔴 THE EXPENSE REALITY</strong>
+
+<span class="stat-inline">₦503,832</span> spent in 4 months. That's 63% of everything I earned.
+
+The most shocking line item? <strong>Data bundles: ₦80,548.</strong> More than my transport. More than my family contributions. 16 cents of every expense Naira went to internet data. That's not discipline — that's a subscription to distraction.
+
+Top 4 drains:
+<div class="numbered"><span class="num">16%</span><span>Data bundles — <strong>₦80,548</strong> · Largest single expense category</span></div>
+<div class="numbered"><span class="num">15%</span><span>Business expenses — <strong>₦73,200</strong> · Some necessary, most unreviewed</span></div>
+<div class="numbered"><span class="num">14%</span><span>Utilities — <strong>₦68,900</strong> · Stable but unoptimised</span></div>
+<div class="numbered"><span class="num">10%</span><span>Entertainment — <strong>₦48,100</strong> · Exceeded transport AND rent</span></div>
+<span class="section-break"></span>
+<strong>💰 THE SAVINGS GAP</strong>
+
+I saved ₦184,110 across 4 months. Sounds reasonable — until you divide it by income.
+
+<strong>4.6% savings rate.</strong> The recommended minimum is 20%. I was saving at less than a quarter of the benchmark. My emergency fund covers 0.41 months of expenses. One bad month from a real financial crisis.
+
+Savings goals tracker:
+<div class="numbered"><span class="num">28%</span><span>Emergency Fund — ₦51,350 / ₦375,000 target</span></div>
+<div class="numbered"><span class="num">21%</span><span>Investment — ₦21,000 / ₦100,000 target</span></div>
+<div class="numbered"><span class="num">18%</span><span>Business Capital — in progress</span></div>
+<div class="numbered"><span class="num">15%</span><span>Rent buffer — early stage</span></div>
+<span class="section-break"></span>
+<strong>🛠 THE 6-MOVE FIX</strong>
+
+<div class="numbered"><span class="num">I</span><span><strong>Automate ₦40,000 savings on payday</strong> — before lifestyle expenses touch it</span></div>
+<div class="numbered"><span class="num">II</span><span><strong>Switch to annual data bundle</strong> — target 50% reduction, save ₦10K+/month</span></div>
+<div class="numbered"><span class="num">III</span><span><strong>Entertainment hard cap: ₦8,000/month</strong> — envelope method, cash only</span></div>
+<div class="numbered"><span class="num">IV</span><span><strong>Emergency fund to ₦375,000 first</strong> — 3 months coverage before all other goals</span></div>
+<div class="numbered"><span class="num">V</span><span><strong>Build one passive income stream</strong> — retainer, digital product, or investment return</span></div>
+<div class="numbered"><span class="num">VI</span><span><strong>Adopt 50/30/20 framework strictly</strong> — ₦100K needs · ₦60K wants · ₦40K saves</span></div>
+<span class="section-break"></span>
+<strong>📈 OVERALL FINANCIAL HEALTH SCORE: 52 / 100</strong>
+
+Savings Discipline: 23 · Expense Control: 45 · Income Diversity: 70 · Goal Setting: 65 · Cash Flow Stability: 55
+
+<strong>Verdict: "You earn well. Now build the discipline to match it."</strong>
+
+The hardest truth in personal finance isn't the numbers — it's the honesty to look at them clearly.
+
+Most of us know we should save more. Very few of us actually track what's happening. This audit showed me exactly where 63% of my money goes — and gave me a clear roadmap to fix it.
+
+<span class="cta-line">If you want to run the same analysis on your finances, I built a full automated tracker — <strong>Income · Expenses · Savings · Budget · Dashboard — all in one Excel workbook.</strong> Drop "TRACKER" in the comments and I'll send it your way. 👇</span>
+
+<div class="hashtags">#PersonalFinance #FinancialDiscipline #NairaMovement #MoneyHabits #BudgetingNigeria #WealthBuilding #FinanceCoach #NaijaFinance #FinancialFreedom #MoneyManagement #IncomeStreams #SavingsGoals #FinancialHealth #ExpenseTracking #50302Framework #PassiveIncome #FinancialLiteracy #NaijaEntrepreneur #MoneyMindset #FinancialAnalysis</div>
+      </div>
+    </div>
+
+    <!-- DATA BREAKDOWN -->
+    <div class="breakdown">
+      <div class="breakdown-title">Full Data Breakdown · Jan – Apr 2026</div>
+      <div class="breakdown-grid">
+
+        <div class="bcard income">
+          <div class="bcard-title">Income Streams</div>
+          <div class="bcard-items">
+            <div>
+              <div class="bcard-item">
+                <span class="bcard-item-name">Business</span>
+                <span class="bcard-item-val" style="color:var(--green)">₦238,134</span>
+              </div>
+              <div class="bcard-bar-wrap"><div class="bcard-bar-fill" style="width:100%;background:var(--green)"></div></div>
+            </div>
+            <div>
+              <div class="bcard-item">
+                <span class="bcard-item-name">Side Hustle</span>
+                <span class="bcard-item-val" style="color:var(--teal)">₦200,231</span>
+              </div>
+              <div class="bcard-bar-wrap"><div class="bcard-bar-fill" style="width:84%;background:var(--teal)"></div></div>
+            </div>
+            <div>
+              <div class="bcard-item">
+                <span class="bcard-item-name">Commission</span>
+                <span class="bcard-item-val" style="color:var(--purp)">₦188,105</span>
+              </div>
+              <div class="bcard-bar-wrap"><div class="bcard-bar-fill" style="width:79%;background:var(--purp)"></div></div>
+            </div>
+            <div>
+              <div class="bcard-item">
+                <span class="bcard-item-name">Freelance</span>
+                <span class="bcard-item-val" style="color:#2471A3">₦173,530</span>
+              </div>
+              <div class="bcard-bar-wrap"><div class="bcard-bar-fill" style="width:73%;background:#2471A3"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bcard expense">
+          <div class="bcard-title">Top Expenses</div>
+          <div class="bcard-items">
+            <div>
+              <div class="bcard-item">
+                <span class="bcard-item-name">Data Bundles</span>
+                <span class="bcard-item-val" style="color:var(--red)">₦80,548 · 16%</span>
+              </div>
+              <div class="bcard-bar-wrap"><div class="bcard-bar-fill" style="width:100%;background:var(--red)"></div></div>
+            </div>
+            <div>
+              <div class="bcard-item">
+                <span class="bcard-item-name">Business Exp.</span>
+                <span class="bcard-item-val" style="color:var(--gold)">₦73,200 · 15%</span>
+              </div>
+              <div class="bcard-bar-wrap"><div class="bcard-bar-fill" style="width:91%;background:var(--gold)"></div></div>
+            </div>
+            <div>
+              <div class="bcard-item">
+                <span class="bcard-item-name">Utilities</span>
+                <span class="bcard-item-val" style="color:#888">₦68,900 · 14%</span>
+              </div>
+              <div class="bcard-bar-wrap"><div class="bcard-bar-fill" style="width:86%;background:#aaa"></div></div>
+            </div>
+            <div>
+              <div class="bcard-item">
+                <span class="bcard-item-name">Entertainment</span>
+                <span class="bcard-item-val" style="color:var(--red)">₦48,100 · 10%</span>
+              </div>
+              <div class="bcard-bar-wrap"><div class="bcard-bar-fill" style="width:60%;background:var(--red)"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bcard savings">
+          <div class="bcard-title">Savings Goals Progress</div>
+          <div class="bcard-items">
+            <div>
+              <div class="bcard-item">
+                <span class="bcard-item-name">Emergency Fund</span>
+                <span class="bcard-item-val" style="color:var(--gold)">28%</span>
+              </div>
+              <div class="bcard-bar-wrap"><div class="bcard-bar-fill" style="width:28%;background:var(--gold)"></div></div>
+            </div>
+            <div>
+              <div class="bcard-item">
+                <span class="bcard-item-name">Investment</span>
+                <span class="bcard-item-val" style="color:var(--teal)">21%</span>
+              </div>
+              <div class="bcard-bar-wrap"><div class="bcard-bar-fill" style="width:21%;background:var(--teal)"></div></div>
+            </div>
+            <div>
+              <div class="bcard-item">
+                <span class="bcard-item-name">Business Capital</span>
+                <span class="bcard-item-val" style="color:var(--purp)">18%</span>
+              </div>
+              <div class="bcard-bar-wrap"><div class="bcard-bar-fill" style="width:18%;background:var(--purp)"></div></div>
+            </div>
+            <div>
+              <div class="bcard-item">
+                <span class="bcard-item-name">Rent Buffer</span>
+                <span class="bcard-item-val" style="color:var(--green)">15%</span>
+              </div>
+              <div class="bcard-bar-wrap"><div class="bcard-bar-fill" style="width:15%;background:var(--green)"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bcard budget">
+          <div class="bcard-title">50/30/20 Framework Status</div>
+          <div class="bcard-items">
+            <div>
+              <div class="bcard-item">
+                <span class="bcard-item-name">Needs (target 50%)</span>
+                <span class="bcard-item-val" style="color:var(--green)">✓ OK</span>
+              </div>
+              <div class="bcard-bar-wrap"><div class="bcard-bar-fill" style="width:50%;background:var(--green)"></div></div>
+            </div>
+            <div>
+              <div class="bcard-item">
+                <span class="bcard-item-name">Wants (target 30%)</span>
+                <span class="bcard-item-val" style="color:var(--red)">⚠ OVER</span>
+              </div>
+              <div class="bcard-bar-wrap"><div class="bcard-bar-fill" style="width:38%;background:var(--red)"></div></div>
+            </div>
+            <div>
+              <div class="bcard-item">
+                <span class="bcard-item-name">Savings (target 20%)</span>
+                <span class="bcard-item-val" style="color:var(--red)">✗ 4.6%</span>
+              </div>
+              <div class="bcard-bar-wrap"><div class="bcard-bar-fill" style="width:4.6%;background:var(--red)"></div></div>
+            </div>
+            <div style="margin-top:4px;">
+              <div class="bcard-item">
+                <span class="bcard-item-name" style="font-weight:600;color:var(--navy)">Gap to close</span>
+                <span class="bcard-item-val" style="color:var(--red)">₦30,800/mo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INSIGHTS -->
+    <div class="insights">
+      <div class="insights-title">Automated Insights & Alerts</div>
+      <div class="insight-list">
+        <div class="insight-item alert">
+          <div class="insight-icon">🔴</div>
+          <div class="insight-body">
+            <div class="insight-heading">Savings rate critically low — 4.6% vs 20% benchmark</div>
+            <div class="insight-text">You need to save an additional ₦30,800/month to reach the 20% minimum. Automate this transfer on payday before any spending occurs. The emergency fund at 28% completion is the highest priority — it currently covers only 0.41 months of expenses.</div>
+          </div>
+        </div>
+        <div class="insight-item alert">
+          <div class="insight-icon">🔴</div>
+          <div class="insight-body">
+            <div class="insight-heading">Data bundle spend is the #1 unexplained drain</div>
+            <div class="insight-text">₦80,548 on data over 4 months — more than entertainment, transport, and family support combined. Switching to an annual corporate bundle can reduce this by 40–60%, freeing up ₦8,000–₦12,000 per month that goes directly into savings.</div>
+          </div>
+        </div>
+        <div class="insight-item warn">
+          <div class="insight-icon">⚠️</div>
+          <div class="insight-body">
+            <div class="insight-heading">Entertainment exceeds safe lifestyle spend ceiling</div>
+            <div class="insight-text">₦48,100 on entertainment represents 10% of all expenses — well above the recommended 4–6%. A hard cap at ₦8,000/month using the envelope method would save ₦10,000+ monthly and immediately improves the 50/30/20 balance.</div>
+          </div>
+        </div>
+        <div class="insight-item warn">
+          <div class="insight-icon">⚠️</div>
+          <div class="insight-body">
+            <div class="insight-heading">Zero passive income — 100% active income dependency</div>
+            <div class="insight-text">All 4 income streams require active work. A single disruption (health, contract loss, market slowdown) threatens the entire income base. Priority: productise one service into a retainer model or digital product by Q3 2026 to introduce recurring, lower-effort revenue.</div>
+          </div>
+        </div>
+        <div class="insight-item good">
+          <div class="insight-icon">✅</div>
+          <div class="insight-body">
+            <div class="insight-heading">Income diversification is a real strength</div>
+            <div class="insight-text">Four distinct income streams with no single source exceeding 30% of total income is an excellent foundation. Most Nigerians depend on a single salary. This multi-stream model, once paired with automated savings, creates genuine wealth-building momentum.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCORE -->
+    <div class="score-section">
+      <div class="score-title">Financial Health Scorecard</div>
+      <div class="score-grid">
+        <div class="score-item">
+          <div class="score-label">Savings Discipline</div>
+          <div class="score-bar-row">
+            <div class="score-bar-bg"><div class="score-bar-fg" style="width:23%;background:var(--red)"></div></div>
+            <div class="score-num">23</div>
+          </div>
+        </div>
+        <div class="score-item">
+          <div class="score-label">Expense Control</div>
+          <div class="score-bar-row">
+            <div class="score-bar-bg"><div class="score-bar-fg" style="width:45%;background:var(--gold)"></div></div>
+            <div class="score-num">45</div>
+          </div>
+        </div>
+        <div class="score-item">
+          <div class="score-label">Income Diversity</div>
+          <div class="score-bar-row">
+            <div class="score-bar-bg"><div class="score-bar-fg" style="width:70%;background:var(--teal)"></div></div>
+            <div class="score-num">70</div>
+          </div>
+        </div>
+        <div class="score-item">
+          <div class="score-label">Goal Setting</div>
+          <div class="score-bar-row">
+            <div class="score-bar-bg"><div class="score-bar-fg" style="width:65%;background:var(--green)"></div></div>
+            <div class="score-num">65</div>
+          </div>
+        </div>
+        <div class="score-item">
+          <div class="score-label">Cash Flow Stability</div>
+          <div class="score-bar-row">
+            <div class="score-bar-bg"><div class="score-bar-fg" style="width:55%;background:var(--purp)"></div></div>
+            <div class="score-num">55</div>
+          </div>
+        </div>
+      </div>
+      <div class="score-total">
+        <div class="score-total-num">52</div>
+        <div class="score-total-info">
+          <div class="score-total-label">Overall Score · Out of 100</div>
+          <div class="score-total-verdict">"You earn well. Now build the discipline to match it."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COPY SECTION -->
+    <div class="copy-section">
+      <div class="copy-hint">Ready to post · Click to copy full text</div>
+      <button class="copy-btn" onclick="copyPost()" id="copyBtn">Copy Post Text</button>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span>NAIRA MOVES</span> · Financial Discipline System · Nigeria
+  </div>
+
+</div>
+
+<!-- Hidden post text for copying -->
+<textarea id="post-content">
+I made ₦800,000 in 4 months.
+I saved less than 5% of it.
+Here's the full breakdown — and what I'm doing to fix it.
+
+Most people in Nigeria are earning but not building wealth. The difference? Discipline, tracking, and honest data.
+
+I ran a full personal finance audit across January to April 2026 — every income source, every expense category, every savings goal. No hiding. No estimates. Raw numbers.
+
+Here's what 4 months of data revealed:
+
+📊 THE INCOME PICTURE
+
+I earned ₦800,000 across 4 active income streams:
+→ Business: ₦238,134 (30% of income)
+→ Side Hustle: ₦200,231 (25%)
+→ Commission: ₦188,105 (24%)
+→ Freelance: ₦173,530 (22%)
+
+The good: true income diversification. The risk: every stream is active income — none of it works while I sleep. Zero passive income. That changes in Q3.
+
+🔴 THE EXPENSE REALITY
+
+₦503,832 spent in 4 months. That's 63% of everything I earned.
+
+The most shocking line item? Data bundles: ₦80,548. More than my transport. More than family contributions. 16 cents of every expense Naira went to internet data.
+
+Top 4 expense drains:
+→ Data Bundles: ₦80,548 (16%)
+→ Business Expenses: ₦73,200 (15%)
+→ Utilities: ₦68,900 (14%)
+→ Entertainment: ₦48,100 (10%) — exceeded rent AND transport
+
+💰 THE SAVINGS GAP
+
+I saved ₦184,110 total. Sounds reasonable — until you do the maths.
+
+4.6% savings rate. The benchmark minimum is 20%. I was saving at less than a quarter of the standard.
+
+My emergency fund covers 0.41 months of expenses. One bad month from a real financial crisis.
+
+Savings goals status:
+→ Emergency Fund: 28% complete (₦51,350 / ₦375,000)
+→ Investment: 21%
+→ Business Capital: 18%
+→ Rent Buffer: 15%
+
+🛠 THE 6-MOVE FIX
+
+I. Automate ₦40,000 savings on payday — before lifestyle expenses touch it
+II. Switch to annual data bundle — target 50% reduction, save ₦10K+/month
+III. Entertainment hard cap: ₦8,000/month — envelope method, cash only
+IV. Emergency fund to ₦375,000 first — 3 months coverage before all other goals
+V. Build one passive income stream — retainer, digital product, or investment return
+VI. Adopt 50/30/20 framework strictly — ₦100K needs · ₦60K wants · ₦40K saves
+
+📈 FINANCIAL HEALTH SCORE: 52 / 100
+
+Savings Discipline: 23/100
+Expense Control: 45/100
+Income Diversity: 70/100
+Goal Setting: 65/100
+Cash Flow Stability: 55/100
+
+Verdict: "You earn well. Now build the discipline to match it."
+
+——
+
+The hardest truth in personal finance isn't the numbers — it's the honesty to look at them clearly.
+
+Most of us know we should save more. Very few of us actually track what's happening. This audit showed me exactly where 63% of my money goes — and gave me a clear roadmap to fix it.
+
+If you want to run the same analysis on your finances, I built a full automated tracker — Income · Expenses · Savings · Budget · Dashboard — all in one Excel workbook.
+
+Drop "TRACKER" in the comments and I'll send it your way. 👇
+
+#PersonalFinance #FinancialDiscipline #NairaMovement #MoneyHabits #BudgetingNigeria #WealthBuilding #FinanceCoach #NaijaFinance #FinancialFreedom #MoneyManagement #IncomeStreams #SavingsGoals #FinancialHealth #ExpenseTracking #5030020 #PassiveIncome #FinancialLiteracy #NaijaEntrepreneur #MoneyMindset #FinancialAnalysis
+
+— Afolayan Joshua
+📸 Instagram: @afojos
+💼 LinkedIn: www.linkedin.com/in/afolayan-joshua
+</textarea>
+
+<script>
+function copyPost() {
+  const text = document.getElementById('post-content').value.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy Post Text';
+      btn.classList.remove('copied');
+    }, 2500);
+  });
+}
+</script>
+</body>
+</html>

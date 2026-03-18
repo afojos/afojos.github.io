@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Naira Moves — Help Us Build Something For You</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#FDFAF3; --bg2:#F7F0E0; --ink:#0D1117;
+  --gold:#C8920E; --gold2:#F5B82E; --goldbg:rgba(200,146,14,0.08);
+  --border:#E8DFC8; --muted:#8A7D65; --cream:#F2E8D0;
+  --red:#C0392B; --green:#0F7B55; --teal:#0B6E72;
+  --card:#FFFFFF; --shadow:rgba(13,17,23,0.08);
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); font-family:'DM Sans',sans-serif;
+  color:var(--ink); min-height:100vh;
+}
+
+/* ── HERO ── */
+.hero{
+  background:var(--ink); position:relative; overflow:hidden;
+  padding:64px 24px 56px; text-align:center;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(200,146,14,0.22) 0%,transparent 65%);
+  pointer-events:none;
+}
+.hero::after{
+  content:''; position:absolute;
+  bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(200,146,14,0.4),transparent);
+}
+.hero-inner{position:relative;z-index:1;max-width:640px;margin:0 auto}
+.hero-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--gold2);background:rgba(200,146,14,0.1);
+  border:1px solid rgba(200,146,14,0.25);
+  border-radius:20px;padding:6px 16px;margin-bottom:28px;
+}
+.hero-pill::before{content:'●';font-size:7px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+.hero-title{
+  font-family:'Fraunces',serif;font-size:clamp(36px,7vw,62px);
+  font-weight:900;line-height:1.06;letter-spacing:-1px;
+  color:#FDFAF3;margin-bottom:18px;
+}
+.hero-title .gold{color:var(--gold2);font-style:italic}
+.hero-body{
+  font-size:16px;line-height:1.75;color:rgba(253,250,243,0.55);
+  font-weight:300;margin-bottom:36px;
+}
+.hero-meta{
+  display:flex;align-items:center;justify-content:center;gap:24px;
+  flex-wrap:wrap;
+}
+.hero-meta-item{
+  display:flex;align-items:center;gap:8px;
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:rgba(253,250,243,0.35);letter-spacing:0.5px;
+}
+.hero-meta-item span{color:var(--gold2)}
+
+/* ── PROGRESS ── */
+.progress-wrap{
+  background:var(--ink);border-bottom:1px solid rgba(255,255,255,0.06);
+  padding:16px 24px;position:sticky;top:0;z-index:100;
+}
+.progress-inner{max-width:640px;margin:0 auto;display:flex;align-items:center;gap:16px}
+.progress-track{flex:1;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px;transition:width 0.4s ease}
+.progress-label{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(253,250,243,0.4);white-space:nowrap}
+
+/* ── FORM WRAP ── */
+.form-wrap{max-width:640px;margin:0 auto;padding:48px 24px 80px}
+
+/* ── SECTION DIVIDER ── */
+.section-div{
+  display:flex;align-items:center;gap:14px;
+  margin:48px 0 28px;
+}
+.section-num{
+  font-family:'Fraunces',serif;font-size:42px;font-weight:900;
+  color:var(--gold);opacity:0.3;line-height:1;flex-shrink:0;
+}
+.section-info{}
+.section-title{
+  font-family:'Fraunces',serif;font-size:20px;font-weight:700;
+  color:var(--ink);line-height:1.2;margin-bottom:2px;
+}
+.section-sub{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);
+}
+
+/* ── QUESTION ── */
+.q-block{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:24px 28px;margin-bottom:16px;
+  transition:border-color 0.2s,box-shadow 0.2s;
+  animation:fadeUp 0.4s ease both;
+}
+.q-block:focus-within{
+  border-color:rgba(200,146,14,0.4);
+  box-shadow:0 0 0 3px rgba(200,146,14,0.08);
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.q-block:nth-child(1){animation-delay:.05s}
+.q-block:nth-child(2){animation-delay:.10s}
+.q-block:nth-child(3){animation-delay:.15s}
+.q-block:nth-child(4){animation-delay:.20s}
+.q-block:nth-child(5){animation-delay:.25s}
+
+.q-label{
+  font-family:'Fraunces',serif;font-size:16px;font-weight:600;
+  color:var(--ink);line-height:1.5;margin-bottom:6px;
+}
+.q-hint{
+  font-size:13px;color:var(--muted);font-weight:300;
+  margin-bottom:16px;line-height:1.6;
+}
+.q-required{color:var(--red);margin-left:3px}
+
+/* ── INPUTS ── */
+input[type=text],input[type=email],input[type=number],textarea,select{
+  width:100%;padding:12px 16px;
+  border:1px solid var(--border);border-radius:8px;
+  background:var(--bg2);color:var(--ink);
+  font-family:'DM Sans',sans-serif;font-size:14px;
+  outline:none;transition:border-color 0.2s,box-shadow 0.2s;
+  -webkit-appearance:none;
+}
+input[type=text]:focus,input[type=email]:focus,
+input[type=number]:focus,textarea:focus,select:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(200,146,14,0.1);
+}
+textarea{resize:vertical;min-height:90px;line-height:1.6}
+select{cursor:pointer}
+
+/* ── RADIO & CHECKBOX ── */
+.option-grid{display:flex;flex-direction:column;gap:8px}
+.option-grid.cols{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt-label{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 16px;border:1px solid var(--border);
+  border-radius:9px;cursor:pointer;
+  transition:all 0.15s;background:var(--bg2);
+  font-size:14px;color:var(--ink);user-select:none;
+}
+.opt-label:hover{border-color:rgba(200,146,14,0.35);background:var(--goldbg)}
+.opt-label input{display:none}
+.opt-label.checked{
+  border-color:var(--gold);background:var(--goldbg);
+  font-weight:500;
+}
+.opt-box{
+  width:18px;height:18px;border-radius:50%;
+  border:2px solid var(--border);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.15s;
+}
+.opt-label.checked .opt-box{border-color:var(--gold);background:var(--gold)}
+.opt-box::after{
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:white;display:none;
+}
+.opt-label.checked .opt-box::after{display:block}
+
+.chk-box{width:18px;height:18px;border-radius:4px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.opt-label.checked .chk-box{border-color:var(--gold);background:var(--gold)}
+.chk-box::after{content:'✓';font-size:11px;color:white;display:none;font-weight:700}
+.opt-label.checked .chk-box::after{display:block}
+
+/* ── SCALE ── */
+.scale-wrap{display:flex;gap:6px;align-items:center}
+.scale-btn{
+  flex:1;padding:12px 6px;border:1px solid var(--border);
+  border-radius:8px;background:var(--bg2);cursor:pointer;
+  text-align:center;font-family:'JetBrains Mono',monospace;
+  font-size:13px;font-weight:500;color:var(--muted);
+  transition:all 0.15s;user-select:none;
+}
+.scale-btn:hover{border-color:rgba(200,146,14,0.4);color:var(--gold)}
+.scale-btn.selected{border-color:var(--gold);background:var(--goldbg);color:var(--gold);font-weight:600}
+.scale-labels{display:flex;justify-content:space-between;margin-top:6px;font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace}
+
+/* ── SUBMIT ── */
+.submit-section{
+  background:var(--ink);border-radius:16px;
+  padding:36px 32px;text-align:center;margin-top:40px;
+  position:relative;overflow:hidden;
+}
+.submit-section::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 70% at 50% 100%,rgba(200,146,14,0.15) 0%,transparent 70%);
+}
+.submit-title{
+  font-family:'Fraunces',serif;font-size:26px;font-weight:700;
+  color:#FDFAF3;margin-bottom:8px;position:relative;z-index:1;
+}
+.submit-sub{
+  font-size:14px;color:rgba(253,250,243,0.45);
+  font-weight:300;margin-bottom:28px;line-height:1.6;
+  position:relative;z-index:1;
+}
+.submit-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--gold);color:var(--ink);
+  font-family:'JetBrains Mono',monospace;font-size:13px;
+  font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  padding:16px 40px;border-radius:50px;border:none;cursor:pointer;
+  transition:all 0.2s;position:relative;z-index:1;
+}
+.submit-btn:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(200,146,14,0.3)}
+.submit-btn:active{transform:translateY(0)}
+
+/* ── THANK YOU ── */
+.thankyou{
+  display:none;text-align:center;
+  background:var(--ink);border-radius:16px;
+  padding:56px 32px;margin-top:40px;
+  position:relative;overflow:hidden;
+}
+.thankyou.show{display:block;animation:fadeUp 0.5s ease}
+.thankyou::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 80% at 50% 50%,rgba(200,146,14,0.12) 0%,transparent 70%)}
+.ty-icon{font-size:56px;margin-bottom:16px;position:relative;z-index:1}
+.ty-title{font-family:'Fraunces',serif;font-size:30px;font-weight:900;color:#FDFAF3;margin-bottom:10px;position:relative;z-index:1}
+.ty-title .gold{color:var(--gold2);font-style:italic}
+.ty-body{font-size:15px;color:rgba(253,250,243,0.5);font-weight:300;line-height:1.7;max-width:440px;margin:0 auto 28px;position:relative;z-index:1}
+.ty-links{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1}
+.ty-link{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:1px;text-transform:uppercase;
+  padding:10px 20px;border-radius:6px;text-decoration:none;
+  border:1px solid rgba(200,146,14,0.3);color:var(--gold2);
+  transition:all 0.2s;
+}
+.ty-link:hover{background:rgba(200,146,14,0.1)}
+
+/* ── FOOTER ── */
+.survey-footer{
+  text-align:center;padding:32px 24px;
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--muted);
+}
+.survey-footer strong{color:var(--gold)}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-pill">Naira Moves · Early Access Survey</div>
+    <h1 class="hero-title">We're building something<br>for your <span class="gold">Naira.</span></h1>
+    <p class="hero-body">Before we build the app, we want to hear from you. 3 minutes. 12 questions. Your answers will shape every feature we build.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">⏱ <span>3 minutes</span></div>
+      <div class="hero-meta-item">📋 <span>12 questions</span></div>
+      <div class="hero-meta-item">🔒 <span>Anonymous & free</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-wrap">
+  <div class="progress-inner">
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <div class="progress-label" id="progress-label">0 / 12</div>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="form-wrap">
+<form id="survey-form" onsubmit="submitForm(event)">
+
+  <!-- SECTION 1: ABOUT YOU -->
+  <div class="section-div">
+    <div class="section-num">01</div>
+    <div class="section-info">
+      <div class="section-title">About You</div>
+      <div class="section-sub">3 quick questions · takes 30 seconds</div>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="q-block">
+    <div class="q-label">What best describes how you earn money?<span class="q-required">*</span></div>
+    <div class="q-hint">Pick the one that fits most</div>
+    <div class="option-grid">
+      <label class="opt-label" onclick="selectOpt(this,'q1')">
+        <input type="radio" name="q1" value="salary">
+        <div class="opt-box"></div>Salaried employee — fixed monthly income
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q1')">
+        <input type="radio" name="q1" value="entrepreneur">
+        <div class="opt-box"></div>Entrepreneur / business owner — variable income
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q1')">
+        <input type="radio" name="q1" value="freelance">
+        <div class="opt-box"></div>Freelancer / contractor — project-based income
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q1')">
+        <input type="radio" name="q1" value="multiple">
+        <div class="opt-box"></div>Multiple income streams (salary + side hustle)
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q1')">
+        <input type="radio" name="q1" value="student">
+        <div class="opt-box"></div>Student / allowance-based earner
+      </label>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="q-block">
+    <div class="q-label">What is your approximate monthly income range?<span class="q-required">*</span></div>
+    <div class="option-grid cols">
+      <label class="opt-label" onclick="selectOpt(this,'q2')">
+        <input type="radio" name="q2" value="under50k"><div class="opt-box"></div>Under ₦50,000
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q2')">
+        <input type="radio" name="q2" value="50-150k"><div class="opt-box"></div>₦50,000 – ₦150,000
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q2')">
+        <input type="radio" name="q2" value="150-300k"><div class="opt-box"></div>₦150,000 – ₦300,000
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q2')">
+        <input type="radio" name="q2" value="300-500k"><div class="opt-box"></div>₦300,000 – ₦500,000
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q2')">
+        <input type="radio" name="q2" value="500k-1m"><div class="opt-box"></div>₦500,000 – ₦1,000,000
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q2')">
+        <input type="radio" name="q2" value="above1m"><div class="opt-box"></div>Above ₦1,000,000
+      </label>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="q-block">
+    <div class="q-label">Which bank or fintech do you primarily receive money into?<span class="q-required">*</span></div>
+    <div class="option-grid cols">
+      <label class="opt-label" onclick="selectOpt(this,'q3')">
+        <input type="radio" name="q3" value="opay"><div class="opt-box"></div>OPay
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q3')">
+        <input type="radio" name="q3" value="kuda"><div class="opt-box"></div>Kuda Bank
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q3')">
+        <input type="radio" name="q3" value="gtbank"><div class="opt-box"></div>GTBank
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q3')">
+        <input type="radio" name="q3" value="access"><div class="opt-box"></div>Access Bank
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q3')">
+        <input type="radio" name="q3" value="zenith"><div class="opt-box"></div>Zenith Bank
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q3')">
+        <input type="radio" name="q3" value="firstbank"><div class="opt-box"></div>First Bank
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q3')">
+        <input type="radio" name="q3" value="moniepoint"><div class="opt-box"></div>Moniepoint
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q3')">
+        <input type="radio" name="q3" value="other-bank"><div class="opt-box"></div>Other
+      </label>
+    </div>
+  </div>
+
+  <!-- SECTION 2: THE PAIN -->
+  <div class="section-div">
+    <div class="section-num">02</div>
+    <div class="section-info">
+      <div class="section-title">The Money Problem</div>
+      <div class="section-sub">4 questions · honest answers welcome</div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="q-block">
+    <div class="q-label">After your income arrives, what usually happens?<span class="q-required">*</span></div>
+    <div class="option-grid">
+      <label class="opt-label" onclick="selectOpt(this,'q4')">
+        <input type="radio" name="q4" value="plan-works"><div class="opt-box"></div>I have a plan and I mostly stick to it
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q4')">
+        <input type="radio" name="q4" value="plan-fails"><div class="opt-box"></div>I have a plan but I never actually follow it
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q4')">
+        <input type="radio" name="q4" value="no-plan"><div class="opt-box"></div>I spend as I go — no real plan
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q4')">
+        <input type="radio" name="q4" value="disappears"><div class="opt-box"></div>I honestly don't know where it goes — it just disappears
+      </label>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="q-block">
+    <div class="q-label">How often do you reach the end of the month with less than expected in your account?<span class="q-required">*</span></div>
+    <div class="option-grid cols">
+      <label class="opt-label" onclick="selectOpt(this,'q5')">
+        <input type="radio" name="q5" value="never"><div class="opt-box"></div>Never
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q5')">
+        <input type="radio" name="q5" value="rarely"><div class="opt-box"></div>Rarely
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q5')">
+        <input type="radio" name="q5" value="sometimes"><div class="opt-box"></div>Sometimes
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q5')">
+        <input type="radio" name="q5" value="often"><div class="opt-box"></div>Often
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q5')">
+        <input type="radio" name="q5" value="always"><div class="opt-box"></div>Almost always
+      </label>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="q-block">
+    <div class="q-label">What is your biggest spending problem? Select all that apply.<span class="q-required">*</span></div>
+    <div class="option-grid">
+      <label class="opt-label" onclick="selectChk(this)">
+        <input type="checkbox" name="q6" value="impulse"><div class="chk-box"></div>Impulse buying — I buy things I didn't plan to
+      </label>
+      <label class="opt-label" onclick="selectChk(this)">
+        <input type="checkbox" name="q6" value="no-savings"><div class="chk-box"></div>I can't seem to save consistently
+      </label>
+      <label class="opt-label" onclick="selectChk(this)">
+        <input type="checkbox" name="q6" value="lifestyle-creep"><div class="chk-box"></div>Lifestyle creep — my expenses grow as I earn more
+      </label>
+      <label class="opt-label" onclick="selectChk(this)">
+        <input type="checkbox" name="q6" value="others"><div class="chk-box"></div>People / family demands eat into my money
+      </label>
+      <label class="opt-label" onclick="selectChk(this)">
+        <input type="checkbox" name="q6" value="no-system"><div class="chk-box"></div>I don't have a system — I just wing it
+      </label>
+      <label class="opt-label" onclick="selectChk(this)">
+        <input type="checkbox" name="q6" value="debt"><div class="chk-box"></div>Debt / loan repayments are eating my income
+      </label>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="q-block">
+    <div class="q-label">Have you ever tried a budgeting app or tracker before?<span class="q-required">*</span></div>
+    <div class="option-grid">
+      <label class="opt-label" onclick="selectOpt(this,'q7')">
+        <input type="radio" name="q7" value="never-tried"><div class="opt-box"></div>No — I've never tried one
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q7')">
+        <input type="radio" name="q7" value="tried-stopped"><div class="opt-box"></div>Yes — I tried one but stopped using it
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q7')">
+        <input type="radio" name="q7" value="using-now"><div class="opt-box"></div>Yes — I still use one
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q7')">
+        <input type="radio" name="q7" value="spreadsheet"><div class="opt-box"></div>I use a spreadsheet / Excel tracker
+      </label>
+    </div>
+  </div>
+
+  <!-- SECTION 3: THE SOLUTION -->
+  <div class="section-div">
+    <div class="section-num">03</div>
+    <div class="section-info">
+      <div class="section-title">The App We're Building</div>
+      <div class="section-sub">3 questions · your opinion shapes the product</div>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="q-block">
+    <div class="q-label">Imagine this: your income arrives and the app automatically splits it — ₦50K to food, ₦30K to savings, ₦20K to rent. How useful would that be to you?<span class="q-required">*</span></div>
+    <div class="q-hint">1 = Not useful at all &nbsp;·&nbsp; 5 = This would change my life</div>
+    <div class="scale-wrap" id="scale-q8">
+      <div class="scale-btn" onclick="selectScale(this,'q8',1)">1</div>
+      <div class="scale-btn" onclick="selectScale(this,'q8',2)">2</div>
+      <div class="scale-btn" onclick="selectScale(this,'q8',3)">3</div>
+      <div class="scale-btn" onclick="selectScale(this,'q8',4)">4</div>
+      <div class="scale-btn" onclick="selectScale(this,'q8',5)">5</div>
+    </div>
+    <div class="scale-labels"><span>Not useful</span><span>Life-changing</span></div>
+    <input type="hidden" id="q8-val" name="q8" value="">
+  </div>
+
+  <!-- Q9 -->
+  <div class="q-block">
+    <div class="q-label">Which features matter most to you? Pick your top 3.<span class="q-required">*</span></div>
+    <div class="option-grid">
+      <label class="opt-label" onclick="selectChk(this,'q9',3)">
+        <input type="checkbox" name="q9" value="auto-split"><div class="chk-box"></div>Auto-split income to different accounts when money arrives
+      </label>
+      <label class="opt-label" onclick="selectChk(this,'q9',3)">
+        <input type="checkbox" name="q9" value="budget-assign"><div class="chk-box"></div>Pre-assign budget envelopes before payday
+      </label>
+      <label class="opt-label" onclick="selectChk(this,'q9',3)">
+        <input type="checkbox" name="q9" value="spending-alerts"><div class="chk-box"></div>Alerts when I'm about to overspend a category
+      </label>
+      <label class="opt-label" onclick="selectChk(this,'q9',3)">
+        <input type="checkbox" name="q9" value="savings-goals"><div class="chk-box"></div>Savings goals with automatic progress tracking
+      </label>
+      <label class="opt-label" onclick="selectChk(this,'q9',3)">
+        <input type="checkbox" name="q9" value="health-score"><div class="chk-box"></div>Monthly financial health score out of 100
+      </label>
+      <label class="opt-label" onclick="selectChk(this,'q9',3)">
+        <input type="checkbox" name="q9" value="loan-tracker"><div class="chk-box"></div>Loan / debt repayment tracker with auto-payment
+      </label>
+      <label class="opt-label" onclick="selectChk(this,'q9',3)">
+        <input type="checkbox" name="q9" value="income-track"><div class="chk-box"></div>Track multiple income streams separately
+      </label>
+      <label class="opt-label" onclick="selectChk(this,'q9',3)">
+        <input type="checkbox" name="q9" value="reports"><div class="chk-box"></div>Monthly reports showing where my money went
+      </label>
+    </div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="q-block">
+    <div class="q-label">Would you pay for this app if it genuinely helped you save more and stop leaking money?<span class="q-required">*</span></div>
+    <div class="option-grid">
+      <label class="opt-label" onclick="selectOpt(this,'q10')">
+        <input type="radio" name="q10" value="free-only"><div class="opt-box"></div>No — only if it's completely free
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q10')">
+        <input type="radio" name="q10" value="under1k"><div class="opt-box"></div>Yes — up to ₦1,000/month
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q10')">
+        <input type="radio" name="q10" value="1k-2k"><div class="opt-box"></div>Yes — ₦1,000 – ₦2,000/month
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q10')">
+        <input type="radio" name="q10" value="2k-5k"><div class="opt-box"></div>Yes — ₦2,000 – ₦5,000/month
+      </label>
+      <label class="opt-label" onclick="selectOpt(this,'q10')">
+        <input type="radio" name="q10" value="one-time"><div class="opt-box"></div>I'd prefer a one-time payment, not monthly
+      </label>
+    </div>
+  </div>
+
+  <!-- SECTION 4: FINAL -->
+  <div class="section-div">
+    <div class="section-num">04</div>
+    <div class="section-info">
+      <div class="section-title">Last 2 Questions</div>
+      <div class="section-sub">Optional but very helpful</div>
+    </div>
+  </div>
+
+  <!-- Q11 -->
+  <div class="q-block">
+    <div class="q-label">In one sentence — what would make this app absolutely worth it to you?</div>
+    <div class="q-hint">Be honest. No wrong answers.</div>
+    <textarea name="q11" placeholder="e.g. If it could stop me from spending my savings before the month ends..."></textarea>
+  </div>
+
+  <!-- Q12 -->
+  <div class="q-block">
+    <div class="q-label">Drop your email or WhatsApp number to be first on the waitlist</div>
+    <div class="q-hint">We'll notify you when the app launches. No spam — ever.</div>
+    <input type="text" name="q12" placeholder="Email address or WhatsApp number (e.g. 08012345678)">
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-section">
+    <div class="submit-title">You're helping build this. 🙏</div>
+    <div class="submit-sub">Every answer shapes the product. We'll build what you actually need — not what we assume you want.</div>
+    <button type="submit" class="submit-btn">
+      Submit My Answers →
+    </button>
+  </div>
+
+</form>
+
+<!-- THANK YOU -->
+<div class="thankyou" id="thankyou">
+  <div class="ty-icon">✅</div>
+  <div class="ty-title">Thank you. <span class="gold">Really.</span></div>
+  <div class="ty-body">Your response has been recorded. You're one of the early voices shaping Naira Moves. We'll reach out as soon as the app is ready for early access.</div>
+  <div class="ty-links">
+    <a class="ty-link" href="https://instagram.com/afojos" target="_blank">Follow @afojos</a>
+    <a class="ty-link" href="https://www.linkedin.com/in/afolayan-joshua" target="_blank">LinkedIn</a>
+  </div>
+</div>
+
+</div><!-- /form-wrap -->
+
+<div class="survey-footer">
+  Built by <strong>Afolayan Joshua</strong> · @afojos · <strong>Naira Moves</strong> · Financial Discipline System · Nigeria
+</div>
+
+<script>
+// ── TRACK ANSWERED ────────────────────────────────────
+const required = ['q1','q2','q3','q4','q5','q6','q7','q8','q9','q10'];
+const answered = new Set();
+
+function updateProgress(){
+  const n = answered.size;
+  const pct = Math.round((n/required.length)*100);
+  document.getElementById('progress-fill').style.width = pct+'%';
+  document.getElementById('progress-label').textContent = n+' / '+required.length;
+}
+
+// ── RADIO SELECT ──────────────────────────────────────
+function selectOpt(el, name){
+  document.querySelectorAll(`[name="${name}"]`).forEach(input=>{
+    input.closest('.opt-label').classList.remove('checked');
+  });
+  el.classList.add('checked');
+  answered.add(name);
+  updateProgress();
+}
+
+// ── CHECKBOX SELECT ───────────────────────────────────
+function selectChk(el, name, max){
+  const isChecked = el.classList.contains('checked');
+  if(!isChecked && max){
+    const currentChecked = document.querySelectorAll(`[name="${name}"]:checked`).length;
+    if(currentChecked >= max){
+      // Flash a warning
+      el.style.borderColor='var(--red)';
+      setTimeout(()=>el.style.borderColor='',600);
+      return;
+    }
+  }
+  const inp = el.querySelector('input');
+  if(isChecked){
+    el.classList.remove('checked');
+    inp.checked = false;
+  } else {
+    el.classList.add('checked');
+    inp.checked = true;
+    const n = inp.name;
+    if(n) answered.add(n);
+    updateProgress();
+  }
+}
+
+// ── SCALE SELECT ──────────────────────────────────────
+function selectScale(el, name, val){
+  const wrap = document.getElementById('scale-'+name);
+  wrap.querySelectorAll('.scale-btn').forEach(b=>b.classList.remove('selected'));
+  // Highlight up to selected
+  wrap.querySelectorAll('.scale-btn').forEach((b,i)=>{
+    if(i < val) b.classList.add('selected');
+  });
+  document.getElementById(name+'-val').value = val;
+  answered.add(name);
+  updateProgress();
+}
+
+// ── FORM SUBMIT ───────────────────────────────────────
+function submitForm(e){
+  e.preventDefault();
+  // Basic validation
+  const missing = required.filter(q=>!answered.has(q));
+  if(missing.length > 0){
+    alert(`Please answer all required questions (${missing.length} remaining)`);
+    return;
+  }
+  // Collect answers
+  const form = document.getElementById('survey-form');
+  const data = new FormData(form);
+  const responses = {};
+  for(let [k,v] of data.entries()){
+    if(responses[k]) responses[k] = responses[k]+', '+v;
+    else responses[k] = v;
+  }
+  console.log('Survey responses:', responses);
+  // Show thank you
+  form.style.display='none';
+  const ty = document.getElementById('thankyou');
+  ty.classList.add('show');
+  ty.scrollIntoView({behavior:'smooth',block:'center'});
+}
+</script>
+</body>
+</html>
